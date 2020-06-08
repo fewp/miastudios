@@ -23,10 +23,7 @@ module.exports = {
             c.setParent(channels.parents.commission , { lockPermissions: false });
             c.setTopic(`<@${member.id}>'s commission ticket.`)
             c.send(`<@${member.id}>`).then((m) => {m.delete({ timeout: 1 });});
-            console.log(`Um novo ticket 'ticket-${name}' foi criado.`)
+            console.log(`Um novo commission ticket 'ticket-${name}' foi criado.`)
         });
-
-
-    
     }
 }

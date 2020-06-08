@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const style   = require(`../assets/embeds.json`);
+const emojis  = require(`../assets/emojis.json`);
 
 
 // TOS
@@ -25,6 +26,35 @@ exports.tosOne = tosOne;
 exports.tosTwo = tosTwo;
 exports.tosThree = tosThree;
 exports.tosFour = tosFour;
+
+
+const ticketOne = new Discord.MessageEmbed()
+    .setColor(style.color1)
+    .setTitle(`${emojis.mia.text} **Welcome, this is the Mia Studios create-a-ticket center.**`)
+    .setDescription("Here you can create a ticket and receive instantaneous support from a member of our staff team. Make sure to make use of all of our ticket commands to make your experience creating a ticket easier and quicker:\n\n`-ticket close          `| Closes your ticket unless money has already been paid.\n`-ticket leave          `| Leave a ticket if you joined through an invite.\n`-ticket invite <@User> `| Allows another member to join your ticket.\n`-ticket kick <@User>   `| Kicks the designated user from the ticket.");
+
+const ticketTwo = new Discord.MessageEmbed()
+    .setColor(style.color2)
+    .setTitle(`${emojis.commission.text} **Commission Tickets**`)
+    .setDescription(`You may order a commission from Mia Studios using our commission ticket system. Once you have created a ticket, you will be asked multiple short questions to help give us an idea of what you are looking to order. Make sure to read <#694702418579030037> before creating a ticket. A manager will then help give a budget for your project. Once a budget has been given, and if you agree to continue, one of our builders will claim the commission.\n\n__Estimated Support Time__: **15** minutes.\n\n**React with ${emojis.commission.text} to open a Commission Ticket.**`);
+
+const ticketThree = new Discord.MessageEmbed()
+    .setColor(style.color3)
+    .setTitle(`${emojis.support.text} **Support Tickets**`)
+    .setDescription(`If you have an issue, or just require information on a product, we recommend opening a support ticket. Once you have opened a ticket you will be asked a few questions about what you require support for, before a member of our support team is found.\n\n__Estimated Support Time__: **20** minutes.\n\n**React with ${emojis.support.text} to open a Support Ticket.**`);
+
+const ticketFour = new Discord.MessageEmbed()
+    .setColor(style.color4)
+    .setTitle(`${emojis.application.text} **Application Tickets**`)
+    .setDescription(`You may work with us from Mia Studios by applying for a job with our ticket system. Once the ticket is opened we will ask multiple questions to get an idea of whom you are, what you do and other things that may vary depending on the role you are applying for, and hopefully you will be a part of our team.\n\n__Estimated Support Time__: **20** minutes.\n\n**React with ${emojis.application.text} to open an Application Ticket.**`);
+
+
+exports.ticketOne = ticketOne;
+exports.ticketTwo = ticketTwo;
+exports.ticketThree = ticketThree;
+exports.ticketFour = ticketFour;
+
+
 
 
 

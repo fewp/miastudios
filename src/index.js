@@ -14,7 +14,14 @@ const announce     = require("./functions/announce");
 const showcase     = require("./functions/showcase");
 const store        = require("./functions/store");
 const verify       = require("./functions/verify");
+const help         = require("./functions/help");
+
+// tickets
 const commission   = require("./functions/tickets/commission");
+const application  = require("./functions/tickets/application");
+const support      = require("./functions/tickets/support");
+const pCommission  = require("./functions/tickets/priorityCommission");
+const pSupport     = require("./functions/tickets/prioritySupport");
 
 // ticket functions
 const close        = require("./functions/tickets/functions/close");
@@ -30,14 +37,6 @@ const embeds       = require('./utils/embeds');
 client.login(config.token);
 
 client.on(`message`, async msg => {
-    /* if(msg.content == '-send'){
-        await msg.channel.send(embeds.tosOne)
-        await msg.channel.send(embeds.tosTwo)
-        await msg.channel.send(embeds.tosThree)
-        await msg.channel.send(embeds.tosFour).then(async (m) => {
-            m.react(msg.guild.emojis.cache.get('714075451458322452'))
-        });
-    } */
     if (!msg.content.startsWith(config.prefix) || msg.author.bot) return;
     let argsUnclear = msg.content.slice(config.prefix.length).split('"');
     argsUnclear.shift();
@@ -53,7 +52,13 @@ client.on(`message`, async msg => {
     } else {
         console.log(`Arguments: ${argsC}`);
     }
-    console.log(args);
+
+    if(command === 'help') {
+        
+        help.do(msg.channel);
+        msg.delete();
+        return;
+    }
 
     if (channel.id === `${channels.botCommands}`){
         if(command === "announce"){
@@ -78,13 +83,12 @@ client.on(`message`, async msg => {
     var name = membro.displayName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
     console.log(name)
 
-    
+
 
     if(channel.parentID === channels.parents.commission || channel.parentID === channels.parents.support || channel.parentID === channels.parents.application || channel.parentID === channels.parents.priorityCommission || channel.parentID === channels.parents.prioritySupport ){
         if(command === "ticket" ){
             if(argsC.length > 0){
                 if(argsC.length === 1){
-                    
                     // comandos com 1 argumento
                     if(argsC[0] == 'close'){
                         close.do(channel, name);
@@ -107,7 +111,6 @@ client.on(`message`, async msg => {
                         invite.do(user, channel);
                         msg.delete();
                         return;
-
                     } 
                 }
             }
@@ -131,13 +134,10 @@ client.on(`message`, async msg => {
             }
         }
     }
-
 });
 
 
 client.on(`messageReactionAdd`, async (reaction, user) => {
-    
-    console.log('Reaction added.')
     if (reaction.message.partial) await reaction.message.fetch();
     if (reaction.partial) await reaction.fetch();
     if (user.bot) return;
@@ -165,14 +165,19 @@ client.on(`messageReactionAdd`, async (reaction, user) => {
     if (!guild.channels.cache.find(c => c.name === `ticket-${name}`)){
         if ( message_id === messages.commission){
             commission.do(guild, membro, name);
+            return;
         } else if ( message_id === messages.support){
-            
+            support.do(guild, membro, name);
+            return;
         } else if ( message_id === messages.application){
-            
+            application.do(guild, membro, name);
+            return;
         } else if ( message_id === messages.priorityCommission){
-            
+            pCommission.do(guild, membro, name);
+            return;
         } else if ( message_id === messages.prioritySupport){
-            
+            pSupport.do(guild, membro, name);
+            return;
         }
     } else {
         // se o usuário já tiver um canal de ticket
