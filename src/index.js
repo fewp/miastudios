@@ -1,44 +1,121 @@
 // packages
 const Discord = require(`discord.js`);
-const client = new Discord.Client({partials: ['MESSAGE', 'CHANNEL', 'REACTION']});
+const client = new Discord.Client({
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION']
+});
+const YouTubeNotifier = require('youtube-notification');
+const Twit = require('twit')
+const http = require("http");
+const express = require("express");
+const app = express();
+var server = http.createServer(app);
 
 // configs and ids
-const config       = require("./assets/config.json");
-const messages     = require(`./assets/messages.json`);
-const channels     = require(`./assets/channels.json`);
-const style        = require(`./assets/embeds.json`);
-const emojis       = require(`./assets/emojis.json`);
+const config = require("./assets/config.json");
+const messages = require(`./assets/messages.json`);
+const channels = require(`./assets/channels.json`);
+const style = require(`./assets/embeds.json`);
+const emojis = require(`./assets/emojis.json`);
 
 // functions
-const announce     = require("./functions/announce");
-const showcase     = require("./functions/showcase");
-const store        = require("./functions/store");
-const verify       = require("./functions/verify");
-const help         = require("./functions/help");
+const announce = require("./functions/announce");
+const showcase = require("./functions/showcase");
+const store = require("./functions/store");
+const verify = require("./functions/verify");
+const whereFrom = require("./functions/whereFrom");
+const help = require("./functions/help");
 
 // tickets
-const commission   = require("./functions/tickets/commission");
-const application  = require("./functions/tickets/application");
-const support      = require("./functions/tickets/support");
-const pCommission  = require("./functions/tickets/priorityCommission");
-const pSupport     = require("./functions/tickets/prioritySupport");
+const commission = require("./functions/tickets/commission");
+const application = require("./functions/tickets/application");
+const support = require("./functions/tickets/support");
+const pCommission = require("./functions/tickets/priorityCommission");
+const pSupport = require("./functions/tickets/prioritySupport");
 
 // ticket functions
-const close        = require("./functions/tickets/functions/close");
-const invite       = require("./functions/tickets/functions/invite");
-const kick         = require("./functions/tickets/functions/kick");
-const leave        = require("./functions/tickets/functions/leave");
-const review       = require("./functions/tickets/functions/review");
+const close = require("./functions/tickets/functions/close");
+const invite = require("./functions/tickets/functions/invite");
+const kick = require("./functions/tickets/functions/kick");
+const leave = require("./functions/tickets/functions/leave");
+const review = require("./functions/tickets/functions/review");
 
 // utils
-const cleanArray   = require("./utils/cleanArray");
-const embeds       = require('./utils/embeds');
+const cleanArray = require("./utils/cleanArray");
+// const embeds = require('./utils/embeds');
 
 client.login(config.token);
 
+
+
+
+
+
+
+// notificações do youtube
+app.get("/", (request, response) => {
+    console.log(`Ping Received.`);
+    response.writeHead(200, {
+        "Content-Type": "text/plain"
+    });
+    response.end("API");
+});
+
+const listener = server.listen(6969, function () {
+    console.log(`Your app is listening on port ` + listener.address().port);
+});
+
+const notifier = new YouTubeNotifier({
+    hubCallback: config.hubcallback,
+    secret: 'JOIN_MY_SERVER_OR_DIE'
+});
+
+
+notifier.on('notified', data => {
+    console.log('New MiaStudios Video');
+    client.channels.cache.get(channels.socialMedia).send(
+        `**${data.channel.name}** just uploaded a new video - **${data.video.link}**`
+    );
+});
+
+notifier.subscribe(config.youtubeChannelId);
+
+app.use("/yt", notifier.listener());
+
+
+
+
+// notificações do Twitter
+var T = new Twit({
+  consumer_key:         config.twitterConsumerKey,
+  consumer_secret:      config.twitterConsumerSecret,
+  access_token:         config.twitterAccessToken,
+  access_token_secret:  config.twitterAccessTokenSecret,
+  timeout_ms:           60*1000, 
+  strictSSL:            true,     
+})
+
+// vai rodar apenas uma vez, assim que o bot ligar.
+client.once('ready', () => {
+  var stream = T.stream('statuses/filter', { follow: [config.twitterUserId] })
+
+  stream.on('tweet', function (tweet) {
+    var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
+    try {
+        client.channels.cache.get(channels.socialMedia).send(
+            `${url}`
+        )
+    } catch (error) {
+        console.log(error);
+    }
+  })
+})
+
+
+
+
 client.on(`message`, async msg => {
 
-    if (msg.author.id === '213022739923992576' && msg.content === "-send info"){
+    if (msg.author.id === '213022739923992576' && msg.content === "-send info") {
         /* Where did you find us?
 
         I was invited\n
@@ -52,7 +129,7 @@ client.on(`message`, async msg => {
             .setColor(style.color1)
             .setTitle("**Where did you find us?**")
             .setDescription(`<:Invited:796640209256054796> I was invited\n<:Twitter:796642093996310548> I came from Twitter\n<:Youtube:796641872067952670> I came from YouTube\n<:RainDrops:796640577642168320> I came from Raindrops Hosting\n<:Other:796641879668162560> I came from other social media`)
-        
+
         msg.channel.send(whereFromEmbed);
 
     }
@@ -62,42 +139,42 @@ client.on(`message`, async msg => {
     let argsUnclear = msg.content.slice(config.prefix.length).split('"');
     argsUnclear.shift();
     var args = cleanArray.do(argsUnclear);
-	const argsC = msg.content.slice(config.prefix.length).split(/ +/);
+    const argsC = msg.content.slice(config.prefix.length).split(/ +/);
     const command = argsC.shift().toLowerCase();
     const channel = msg.channel;
     var box = '`';
 
     console.log(`Command used: ${command}`);
-    if(args.length > 0){
+    if (args.length > 0) {
         console.log(`Arguments: ${args}`);
     } else {
         console.log(`Arguments: ${argsC}`);
     }
 
-    if(command === 'help') {
-        
+    if (command === 'help') {
+
         help.do(msg.channel);
         msg.delete();
         return;
     }
 
-    if (channel.id === `${channels.botCommands}`){
-        if(command === "announce"){
+    if (channel.id === `${channels.botCommands}`) {
+        if (command === "announce") {
             announce.do(args, msg);
             msg.delete();
             return;
 
-        } else if(command === "store"){
+        } else if (command === "store") {
             store.do(args, msg);
             msg.delete();
             return;
 
-        } else if(command === "showcase"){
+        } else if (command === "showcase") {
             showcase.do(args, msg);
             msg.delete();
             return;
         }
-        
+
     }
 
     const membro = msg.guild.members.cache.get(msg.author.id);
@@ -106,37 +183,37 @@ client.on(`message`, async msg => {
 
 
 
-    if(channel.parentID === channels.parents.commission || channel.parentID === channels.parents.support || channel.parentID === channels.parents.application || channel.parentID === channels.parents.priorityCommission || channel.parentID === channels.parents.prioritySupport ){
-        if(command === "ticket" ){
-            if(argsC.length > 0){
-                if(argsC.length === 1){
+    if (channel.parentID === channels.parents.commission || channel.parentID === channels.parents.support || channel.parentID === channels.parents.application || channel.parentID === channels.parents.priorityCommission || channel.parentID === channels.parents.prioritySupport) {
+        if (command === "ticket") {
+            if (argsC.length > 0) {
+                if (argsC.length === 1) {
                     // comandos com 1 argumento
-                    if(argsC[0] == 'close'){
+                    if (argsC[0] == 'close') {
                         close.do(channel, name, msg);
                         msg.delete();
                         return;
-                    } else if(argsC[0] == 'leave'){
+                    } else if (argsC[0] == 'leave') {
                         leave.do(channel, name, msg.author);
                         msg.delete();
                         return;
-                    } 
-                } else if (argsC.length === 2){
+                    }
+                } else if (argsC.length === 2) {
                     // comandos com 2 argumentos
                     var userId = argsC[1].replace(/[^0-9]/g, '').toLowerCase();
                     var user = msg.guild.members.cache.get(userId);
-                    if(argsC[0] == 'kick'){
+                    if (argsC[0] == 'kick') {
                         kick.do(user, channel);
                         msg.delete();
                         return;
-                    } else if(argsC[0] == 'invite'){
+                    } else if (argsC[0] == 'invite') {
                         invite.do(user, channel);
                         msg.delete();
                         return;
-                    } 
+                    }
                 }
             }
-        } else if (command === 'review'){
-            if(argsC.length > 1 || argsC.length < 0){
+        } else if (command === 'review') {
+            if (argsC.length > 1 || argsC.length < 0) {
                 const incorrectUsage = new Discord.MessageEmbed()
                     .setColor(style.color1)
                     .setDescription(`${emojis.mia.text} **Error!**\nIncorrect command usage, the correct syntax is: ${box}-review <@User>${box}.`)
@@ -148,7 +225,7 @@ client.on(`message`, async msg => {
                 var userId = argsC[0].replace(/[^0-9]/g, '').toLowerCase();
                 var user = msg.guild.members.cache.get(userId);
 
-                
+
                 review.do(msg.author, user, channel, msg.guild);
                 msg.delete();
                 return;
@@ -162,14 +239,14 @@ client.on(`messageReactionAdd`, async (reaction, user) => {
     if (reaction.message.partial) await reaction.message.fetch();
     if (reaction.partial) await reaction.fetch();
     if (user.bot) return;
-    
+
     const guild = await client.guilds.cache.get(config.guildId);
     const membro = await guild.members.cache.get(user.id);
     const channel_id = reaction.message.channel.id;
     const message_id = reaction.message.id;
 
     // mensagem não for de nenhum dos canais especificados
-    if (channel_id != channels.tos && channel_id != channels.ticket && channel_id != channels.priorityTicket) return; 
+    if (channel_id != channels.tos && channel_id != channels.ticket && channel_id != channels.priorityTicket && channel_id != channels.information && channel_id != channels.miaTesting) return;
 
     try {
         reaction.users.remove(user);
@@ -177,29 +254,30 @@ client.on(`messageReactionAdd`, async (reaction, user) => {
         console.error('Falha ao remover a reação.');
     }
 
-    if(message_id === messages.tos){
+
+    if (message_id === messages.tos) {
         verify.do(user.id, guild);
         return;
-    } else if(message_id === messages.information){
-        verify.do(user.id, guild);
+    } else if (message_id === messages.whereFrom) {
+        whereFrom.do(user.id, reaction._emoji.id, guild);
         return;
     }
-    
+
     var name = membro.displayName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    if (!guild.channels.cache.find(c => c.name === `ticket-${name}`)){
-        if ( message_id === messages.commission){
+    if (!guild.channels.cache.find(c => c.name === `ticket-${name}`)) {
+        if (message_id === messages.commission) {
             commission.do(guild, membro, name);
             return;
-        } else if ( message_id === messages.support){
+        } else if (message_id === messages.support) {
             support.do(guild, membro, name);
             return;
-        } else if ( message_id === messages.application){
+        } else if (message_id === messages.application) {
             application.do(guild, membro, name);
             return;
-        } else if ( message_id === messages.priorityCommission){
+        } else if (message_id === messages.priorityCommission) {
             pCommission.do(guild, membro, name);
             return;
-        } else if ( message_id === messages.prioritySupport){
+        } else if (message_id === messages.prioritySupport) {
             pSupport.do(guild, membro, name);
             return;
         }
@@ -222,7 +300,7 @@ client.on(`messageReactionAdd`, async (reaction, user) => {
 
 // welcome message e membercount
 client.on("guildMemberAdd", async (member) => {
-    if(member.guild.id !== config.guildId) return;
+    if (member.guild.id !== config.guildId) return;
     client.channels.cache.get(channels.memberCount).setName(`👥 • Members: ${member.guild.memberCount}`)
 
     const guild = await client.guilds.cache.get(config.guildId);
@@ -239,8 +317,6 @@ client.on("guildMemberAdd", async (member) => {
 
 
 client.on("guildMemberRemove", (member) => {
-    if(member.guild.id !== config.guildId) return;
+    if (member.guild.id !== config.guildId) return;
     client.channels.cache.get(channels.memberCount).setName(`👥 • Members: ${member.guild.memberCount}`)
 });
-
-
