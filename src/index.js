@@ -46,11 +46,6 @@ const cleanArray = require("./utils/cleanArray");
 client.login(config.token);
 
 
-
-
-
-
-
 // notificações do youtube
 app.get("/", (request, response) => {
     console.log(`Ping Received.`);
@@ -65,7 +60,7 @@ const listener = server.listen(6969, function () {
 });
 
 const notifier = new YouTubeNotifier({
-    hubCallback: config.hubcallback,
+    hubCallback: "http://144.91.98.154:6969/yt",
     secret: 'JOIN_MY_SERVER_OR_DIE'
 });
 

@@ -120,7 +120,7 @@ module.exports = {
                             // caso nenhuma reação seja coletada em 10 minutos
                             collectorSuccess.on('end', (collected, reason) => {
                                 console.log(reason)
-                                if(reason == "time"){
+                                if(reason == "time" && reviewSuccess === null){
                                     channel.send(error);
                                 }
                             });
@@ -139,7 +139,7 @@ module.exports = {
                             // caso nenhuma reação seja coletada em 10 minutos
                             collectorFail.on('end', (collected, reason) => {
                                 console.log(reason)
-                                if(reason == "time"){
+                                if(reason == "time" && reviewFail === null){
                                     channel.send(error);
                                 }
                             });
@@ -149,7 +149,7 @@ module.exports = {
                     // caso nenhuma reação seja coletada em 10 minutos
                     collectorM2.on('end', (collected, reason) => {
                         console.log(reason)
-                        if(reason == "time"){
+                        if(reason == "time" && buildersRating === null){
                             channel.send(error);
                         }
                     });
@@ -158,7 +158,7 @@ module.exports = {
             // caso nenhuma reação seja coletada em 10 minutos
             collectorM1.on('end', (collected, reason) => {
                 console.log(reason)
-                if(reason == "time"){
+                if(reason == "time" && managerRating === null){
                     channel.send(error);
                 }
             });
