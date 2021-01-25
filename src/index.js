@@ -94,7 +94,7 @@ client.once('ready', () => {
   var stream = T.stream('statuses/filter', { follow: [config.twitterUserId] })
 
   stream.on('tweet', function (tweet) {
-    if(tweet.user.id === config.twitterUserId && tweet.in_reply_to_status_id === null){
+    if(tweet.in_reply_to_status_id === null){
     var url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
         try {
             client.channels.cache.get(channels.socialMedia).send(`${url}`);
