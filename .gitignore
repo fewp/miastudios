@@ -1,2 +1,8 @@
 node_modules/
-src/assets/config.json
+dist/
+
+
+config.json
+.env
+
+main.db
