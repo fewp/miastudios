@@ -2,6 +2,7 @@ import Discord from "discord.js";
 export default (
   title: string | null,
   description: string | null,
+  image: string | null,
   module: string
 ) => {
   const embed = new Discord.MessageEmbed()
@@ -13,6 +14,7 @@ export default (
   embed.setDescription("");
 
   if (title) embed.setTitle(title);
+  if (image) embed.setImage(image);
   if (description) embed.setDescription(description);
 
   return embed;

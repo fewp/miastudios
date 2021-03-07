@@ -1,12 +1,7 @@
 import { Message, User } from "discord.js";
 import fs from "fs";
-import {
-  INFORMATION_CHANNEL,
-  PRIORITY_TICKET_CHANNEL,
-  REACTION_MESSAGE_CHANNELS_ARRAY,
-  TERMS_OF_SERVICE_CHANNEL,
-  TICKET_CHANNEL,
-} from "./assets/Channels";
+import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
+import createConnection from "./db/createConnection";
 import log from "./utils/betterLogger";
 
 require("dotenv-safe").config();
@@ -15,6 +10,8 @@ const DiscordJS = require("discord.js");
 const discordClient = new DiscordJS.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
+
+const conn = createConnection();
 
 // custom collections
 discordClient.commands = new DiscordJS.Collection(); // commands that can be used through chat.
@@ -26,8 +23,12 @@ const reactionFunctions = fs.readdirSync("./src/functions/reactions");
 // get command files and add them to the Discord client
 for (const file of commands) {
   const command = require(`./commands/${file.split(".").shift()}.js`);
-  discordClient.commands.set(command.name.toLowerCase(), command);
-  log(`[COMMAND LOADED] ${command.name}`);
+
+  // commands used in development, can be reactivated again
+  if (file.charAt(0) != "_") {
+    discordClient.commands.set(command.name.toLowerCase(), command);
+    log(`[COMMAND LOADED] ${command.name}`);
+  }
 }
 
 // get reaction function files and add them to the Discord client
@@ -43,16 +44,19 @@ discordClient.once("ready", () => {});
 discordClient.on(`message`, async (msg: Message) => {
   if (!msg.content.startsWith(`${process.env.PREFIX}`) || msg.author.bot)
     return;
-  const args = msg.content.slice(`${process.env.PREFIX}`.length).trim();
-
+  let args = msg.content.slice(`${process.env.PREFIX}`.length).trim();
   const command = args.split(/ +/).shift().toLowerCase();
+  args = args.slice(command.length + 1);
 
   // if the command doesn't exist
   if (!discordClient.commands.has(command)) return;
   log(`[COMMAND USED] ${command}`);
   log(`[ARGS] ${args}`);
   try {
-    discordClient.commands.get(command).run(msg, args);
+    const commandResponse = discordClient.commands.get(command).run(msg, args);
+    if (commandResponse.status == false)
+      log(`[ERROR] ${commandResponse.message[0]}`);
+    else log(`[SUCCESS] Command ran succesfully`);
   } catch (error) {
     log(`[ERROR] ${error}`);
   }
@@ -80,9 +84,12 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
 
   if (!discordClient.reactionFunctions.has(message_id)) return;
   const fn = discordClient.commands.get(message_id);
-  log(`[COMMAND USED] ${fn.name}`);
+  log(`[FUNCTION USED] ${fn.name}`);
   try {
-    fn.run(member, guild);
+    const functionResponse = fn.run(member, guild, reaction._emoji.id);
+    if (functionResponse.status == false)
+      log(`[ERROR] ${functionResponse.message[0]}`);
+    else log(`[SUCCESS] Function ran succesfully`);
   } catch (error) {
     log(`[ERROR] ${error}`);
   }

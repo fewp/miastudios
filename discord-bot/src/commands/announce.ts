@@ -1,14 +1,15 @@
-import { SHOWCASE_CHANNEL } from "../assets/Channels";
+import { ANNOUNCEMENTS_CHANNEL } from "../assets/Channels";
 import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
 import checkArguments from "../utils/checkArguments";
 import getCorrectUsage from "../utils/getCorrectUsage";
 
 module.exports = {
-  name: "Showcase",
-  description: "Sends a showcase to the #showcases channel",
+  name: "Announce",
+  alias: "Announcements",
+  description: "Sends an announcement to the #announcements channel",
   // a * in front of an argument means it has to be an URL
-  argumentsSchema: ["Title", "Client", "Dimensions", "Render", "*Image URL"],
+  argumentsSchema: ["Title", "Message"],
   isMultiWord: true, // if the arguments need to be separated by ""
   run(msg: any, args: string): FunctionResponse {
     const argumentsResponse = checkArguments(
@@ -27,7 +28,7 @@ module.exports = {
         Correct usage: 
         ${getCorrectUsage(this.argumentsSchema, this.name)}`,
         null,
-        this.name
+        this.alias
       );
 
       // sends feedback to the administrator
@@ -40,23 +41,19 @@ module.exports = {
       };
     }
 
-    const showcaseChannel = msg.channel.guild.channels.cache.get(
-      SHOWCASE_CHANNEL
+    const announcementsChannel = msg.channel.guild.channels.cache.get(
+      ANNOUNCEMENTS_CHANNEL
     );
     // ["Title", "Client", "Dimensions", "Render", "*Image URL"],
 
     const embed = buildEmbed(
+      (argumentsResponse as string[])[0],
+      (argumentsResponse as string[])[1],
       null,
-      `**${(argumentsResponse as string[])[0]}**\nClient: ${
-        (argumentsResponse as string[])[1]
-      }\nDimensions: ${(argumentsResponse as string[])[2]}\nRender: ${
-        (argumentsResponse as string[])[3]
-      }`,
-      (argumentsResponse as string[])[4],
-      this.name
+      this.alias
     );
 
-    showcaseChannel.send(embed);
+    announcementsChannel.send(embed);
 
     return {
       status: true,

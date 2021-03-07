@@ -1,14 +1,14 @@
-import { SHOWCASE_CHANNEL } from "../assets/Channels";
+import { STORE_CHANNEL } from "../assets/Channels";
 import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
 import checkArguments from "../utils/checkArguments";
 import getCorrectUsage from "../utils/getCorrectUsage";
 
 module.exports = {
-  name: "Showcase",
-  description: "Sends a showcase to the #showcases channel",
+  name: "Store",
+  description: 'Sends a "Store" message to the #store channel',
   // a * in front of an argument means it has to be an URL
-  argumentsSchema: ["Title", "Client", "Dimensions", "Render", "*Image URL"],
+  argumentsSchema: ["Title", "Price", "Dimensions", "Render", "*Image URL"],
   isMultiWord: true, // if the arguments need to be separated by ""
   run(msg: any, args: string): FunctionResponse {
     const argumentsResponse = checkArguments(
@@ -40,14 +40,12 @@ module.exports = {
       };
     }
 
-    const showcaseChannel = msg.channel.guild.channels.cache.get(
-      SHOWCASE_CHANNEL
-    );
+    const storeChannel = msg.channel.guild.channels.cache.get(STORE_CHANNEL);
     // ["Title", "Client", "Dimensions", "Render", "*Image URL"],
 
     const embed = buildEmbed(
       null,
-      `**${(argumentsResponse as string[])[0]}**\nClient: ${
+      `**${(argumentsResponse as string[])[0]}**\nPrice: ${
         (argumentsResponse as string[])[1]
       }\nDimensions: ${(argumentsResponse as string[])[2]}\nRender: ${
         (argumentsResponse as string[])[3]
@@ -56,7 +54,7 @@ module.exports = {
       this.name
     );
 
-    showcaseChannel.send(embed);
+    storeChannel.send(embed);
 
     return {
       status: true,
