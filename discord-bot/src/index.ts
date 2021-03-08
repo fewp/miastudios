@@ -67,7 +67,9 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
   if (reaction.partial) await reaction.fetch();
   if (user.bot) return;
 
-  const guild = await discordClient.guilds.cache.get(process.env.GUILD_ID);
+  const guild = await discordClient.guilds.cache.get(
+    process.env.DISCORD_GUILD_ID
+  );
   const member = await guild.members.cache.get(user.id);
   const channel_id = reaction.message.channel.id;
   const message_id = reaction.message.id;
@@ -82,8 +84,11 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
     log("[ERROR] Couldn't remove a reaction");
   }
 
+  console.log("message_id", message_id);
+
   if (!discordClient.reactionFunctions.has(message_id)) return;
-  const fn = discordClient.commands.get(message_id);
+  const fn = discordClient.reactionFunctions.get(message_id);
+  console.log("fn", fn);
   log(`[FUNCTION USED] ${fn.name}`);
   try {
     const functionResponse = fn.run(member, guild, reaction._emoji.id);

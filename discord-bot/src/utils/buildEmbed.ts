@@ -6,7 +6,7 @@ export default (
   module: string
 ) => {
   const embed = new Discord.MessageEmbed()
-    .setColor("#ffffff")
+    .setColor("#fffffe") // can't use #ffffff becase Discord makes it dark gray for some reason
     .setTimestamp()
     .setFooter(`Mia Studios ${module}`, `https://i.imgur.com/Nw84FVM.png`);
 

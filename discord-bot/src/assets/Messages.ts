@@ -5,7 +5,7 @@ export const INFOMATION_MIRROR_MESSAGE: string = "796676188105867325";
 // tickets
 // regular
 export const COMMISSION_TICKET_MESSAGE: string = "716769819042512927";
-export const SUPPORT_TICKET_MESSAGE: string = "716769820749725758";
+export const SUPPORT_TICKET_MESSAGE: string = "807794302037393418";
 export const APPLICATION_TICKET_MESSAGE: string = "716769823241142333";
 
 //priority

@@ -6,13 +6,13 @@ export const COMMAND_CHANNELS: string[] = [
 export const INFORMATION_MIRROR_CHANNEL: string = "793157907780075551"; // only accessible to staff, used to be called where_from_mirror
 
 // regular text channels, accessible for everyone
-export const WELCOME_CHANNEL: string = "692576625803526247";
-export const ANNOUNCEMENTS_CHANNEL: string = "694526793482240020";
-export const SHOWCASE_CHANNEL: string = "694739190222684212";
+export const WELCOME_CHANNEL: string = "807741741397573652";
+export const ANNOUNCEMENTS_CHANNEL: string = "807741917672636436";
+export const SHOWCASE_CHANNEL: string = "817978280027881472";
 export const STORE_CHANNEL: string = "694739177773989908";
 export const REVIEWS_CHANNEL: string = "694740873250078730";
 export const TERMS_OF_SERVICE_CHANNEL: string = "694702418579030037";
-export const TICKET_CHANNEL: string = "694720734441766982";
+export const TICKET_CHANNEL: string = "807741808984981556";
 export const PRIORITY_TICKET_CHANNEL: string = "694720746773151745"; // only accessible to staff and priority clients
 export const INFORMATION_CHANNEL: string = "694607784922185878"; // used to be called where_from
 export const SOCIAL_MEDIA_CHANNEL: string = "797623889635049472";
