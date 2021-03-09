@@ -1,77 +1,88 @@
+// <:one:818622879481856000>
+// <:two:818622879515541534>
+// <:three:818622879527993344>
+// <:four:818622879494570044>
+// <:five:818622879385518161>
+// <:support:818622879548702750>
+// <:application:818622879541362718>
+// <:commission:818622879486312448>
+// <:check:818622879499288636>
+// <:cross:818622879176196167>
+
 // core emojis, used in every embed
 export const LOGO_EMOJI = {
-  text: "<:MIALOGO:716708215043260516>",
-  id: "716708215043260516",
+  text: "<:logo:818639036758622228>",
+  id: "818639036758622228",
 };
 export const ARROW_RIGHT_EMOJI = {
-  text: "<:ARROWRIGHT:711018652090237002>",
-  id: "711018652090237002",
+  text: "<:arrowRight:818639541703409674>",
+  id: "818639541703409674",
 };
 
 // emojis for information module
 export const INVITED_EMOJI = {
-  text: "<:Invited:796646515912474654>",
-  id: "796646515912474654",
+  text: "<:invited:818641513004400640>",
+  id: "818641513004400640",
 };
 export const TWITTER_EMOJI = {
-  text: "<:Twitter:796646516172521472>",
-  id: "796646516172521472",
+  text: "<:twitter:818641072442834944>",
+  id: "818641072442834944",
 };
 export const YOUTUBE_EMOJI = {
-  text: "<:Youtube:796646516084834324>",
-  id: "796646516084834324",
+  text: "<:youtube:818641072426188860>",
+  id: "818641072426188860",
 };
 export const OTHER_EMOJI = {
-  text: "<:Other:796646516046692393>",
-  id: "796646516046692393",
+  text: "<:other:818641072472326154>",
+  id: "818641072472326154",
 };
 
 // emojis for confirmation / verification
 export const CHECKMARK_EMOJI = {
-  text: "<:check:714075451458322452>",
-  id: "714075451458322452",
+  text: "<:check:818622879499288636>",
+  id: "818622879499288636",
 };
 export const CROSS_EMOJI = {
-  text: "<:cross:714075451315847300>",
-  id: "714075451315847300",
+  text: "<:cross:818622879176196167>",
+  id: "818622879176196167",
 };
 
 // emojis for reviews
 export const STAR_EMOJI = {
-  text: "<:star:695111762877349909>",
-  id: "695111762877349909",
+  text: "<:star:818622879674531900>",
+  id: "818622879674531900",
 };
 export const ONE_EMOJI = {
-  text: "<:one:799964204568150046> ",
-  id: "799964204568150046",
+  text: "<:one:818622879481856000>",
+  id: "818622879481856000",
 };
 export const TWO_EMOJI = {
-  text: "<:two:799964204517818378>",
-  id: "799964204517818378",
+  text: "<:two:818622879515541534>",
+  id: "818622879515541534",
 };
 export const THREE_EMOJI = {
-  text: "<:three:799964204298666015>",
-  id: "799964204298666015",
+  text: "<:three:818622879527993344>",
+  id: "818622879527993344",
 };
 export const FOUR_EMOJI = {
-  text: "<:four:799964204475219968>",
-  id: "799964204475219968",
+  text: "<:four:818622879494570044>",
+  id: "818622879494570044",
 };
 export const FIVE_EMOJI = {
-  text: "<:five:799964204462243840>",
-  id: "799964204462243840",
+  text: "<:five:818622879385518161>",
+  id: "818622879385518161",
 };
 
 // emojis for tickets
 export const COMMISSION_EMOJI = {
-  text: "<:buy:711032602768834601>",
-  id: "711032602768834601",
+  text: "<:commission:818622879486312448>",
+  id: "818622879486312448",
 };
 export const SUPPORT_EMOJI = {
-  text: "<:settings:711032766417993811>",
-  id: "711032766417993811",
+  text: "<:support:818622879548702750>",
+  id: "818622879548702750",
 };
 export const APPLICATION_EMOJI = {
-  text: "<:app:711032796537290773>",
-  id: "711032796537290773",
+  text: "<:application:818622879541362718>",
+  id: "818622879541362718",
 };

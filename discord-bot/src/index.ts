@@ -1,7 +1,12 @@
 import { Message, User } from "discord.js";
 import fs from "fs";
-import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
-import createConnection from "./db/createConnection";
+import {
+  INFORMATION_CHANNEL,
+  PRIORITY_TICKET_CHANNEL,
+  REACTION_MESSAGE_CHANNELS_ARRAY,
+  TERMS_OF_SERVICE_CHANNEL,
+  TICKET_CHANNEL,
+} from "./assets/Channels";
 import log from "./utils/betterLogger";
 
 require("dotenv-safe").config();
@@ -10,8 +15,6 @@ const DiscordJS = require("discord.js");
 const discordClient = new DiscordJS.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
-
-const conn = createConnection();
 
 // custom collections
 discordClient.commands = new DiscordJS.Collection(); // commands that can be used through chat.
@@ -23,12 +26,8 @@ const reactionFunctions = fs.readdirSync("./src/functions/reactions");
 // get command files and add them to the Discord client
 for (const file of commands) {
   const command = require(`./commands/${file.split(".").shift()}.js`);
-
-  // commands used in development, can be reactivated again
-  if (file.charAt(0) != "_") {
-    discordClient.commands.set(command.name.toLowerCase(), command);
-    log(`[COMMAND LOADED] ${command.name}`);
-  }
+  discordClient.commands.set(command.name.toLowerCase(), command);
+  log(`[COMMAND LOADED] ${command.name}`);
 }
 
 // get reaction function files and add them to the Discord client
@@ -39,24 +38,22 @@ for (const file of reactionFunctions) {
 }
 
 discordClient.login(process.env.DISCORD_TOKEN);
-discordClient.once("ready", () => {});
+discordClient.once("ready", () => {
+  // run twitter and youtube functions
+});
 
 discordClient.on(`message`, async (msg: Message) => {
   if (!msg.content.startsWith(`${process.env.PREFIX}`) || msg.author.bot)
     return;
-  let args = msg.content.slice(`${process.env.PREFIX}`.length).trim();
+  const args = msg.content.slice(`${process.env.PREFIX}`.length).trim();
   const command = args.split(/ +/).shift().toLowerCase();
-  args = args.slice(command.length + 1);
 
   // if the command doesn't exist
   if (!discordClient.commands.has(command)) return;
   log(`[COMMAND USED] ${command}`);
   log(`[ARGS] ${args}`);
   try {
-    const commandResponse = discordClient.commands.get(command).run(msg, args);
-    if (commandResponse.status == false)
-      log(`[ERROR] ${commandResponse.message[0]}`);
-    else log(`[SUCCESS] Command ran succesfully`);
+    discordClient.commands.get(command).run(msg, args);
   } catch (error) {
     log(`[ERROR] ${error}`);
   }
@@ -67,9 +64,7 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
   if (reaction.partial) await reaction.fetch();
   if (user.bot) return;
 
-  const guild = await discordClient.guilds.cache.get(
-    process.env.DISCORD_GUILD_ID
-  );
+  const guild = await discordClient.guilds.cache.get(process.env.GUILD_ID);
   const member = await guild.members.cache.get(user.id);
   const channel_id = reaction.message.channel.id;
   const message_id = reaction.message.id;
@@ -84,17 +79,11 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
     log("[ERROR] Couldn't remove a reaction");
   }
 
-  console.log("message_id", message_id);
-
   if (!discordClient.reactionFunctions.has(message_id)) return;
-  const fn = discordClient.reactionFunctions.get(message_id);
-  console.log("fn", fn);
-  log(`[FUNCTION USED] ${fn.name}`);
+  const fn = discordClient.commands.get(message_id);
+  log(`[COMMAND USED] ${fn.name}`);
   try {
-    const functionResponse = fn.run(member, guild, reaction._emoji.id);
-    if (functionResponse.status == false)
-      log(`[ERROR] ${functionResponse.message[0]}`);
-    else log(`[SUCCESS] Function ran succesfully`);
+    fn.run(member, guild);
   } catch (error) {
     log(`[ERROR] ${error}`);
   }

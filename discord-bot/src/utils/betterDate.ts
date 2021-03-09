@@ -7,12 +7,13 @@ export default () => {
   let hour = date.getHours().toString();
   let minute = date.getMinutes().toString();
   let second = date.getSeconds().toString();
+  let milliseconds = date.getMilliseconds().toString();
 
   let betterDate = `${day.length === 1 ? `0${day}` : day}/${
     month.length === 1 ? `0${month}` : month
   }/${date.getFullYear()} - ${hour.length === 1 ? `0${hour}` : hour}:${
     minute.length === 1 ? `0${minute}` : minute
-  }:${second.length === 1 ? `0${second}` : second}`;
+  }:${second.length === 1 ? `0${second}` : second} 0.${milliseconds}s`;
 
   return betterDate;
 };

@@ -8,14 +8,17 @@ export default (
   isMultiWord: boolean
 ): string[] | FunctionResponse => {
   if (isMultiWord === true) {
-    let argsArray: string[] = args.split(`"`);
-    argsArray = cleanArray(argsArray);
+    const argsCount: number = schema.length;
 
-    if (argsArray.length != schema.length)
+    if (args.match(/"/g).length != argsCount * 2)
       return {
         status: false,
         message: ["Invalid number of arguments."],
       };
+
+    let argsArray: string[] = args.split(`"`);
+    argsArray = cleanArray(argsArray);
+
     let requiresUrl: boolean = false;
     let isUrlValid: boolean = false;
 

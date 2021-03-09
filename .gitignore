@@ -3,6 +3,7 @@ dist/
 
 
 config.json
+discord-bot/old/
 .env
 
 main.db
