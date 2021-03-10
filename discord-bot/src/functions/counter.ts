@@ -7,7 +7,7 @@ export default async (guild: any): Promise<FunctionResponse> => {
     log(`[FUNCTION USED] Counter`);
     guild.channels.cache
       .get(MEMBER_COUNT_CHANNEL)
-      .setName(`﹝👥﹞Members: ${guild.memberCount}`);
+      .setName(`👥 • Members: ${guild.memberCount}`);
   } catch (error) {
     log(`[ERROR] ${error}`);
     return {

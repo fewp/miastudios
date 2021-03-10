@@ -2,6 +2,7 @@ import { ANNOUNCEMENTS_CHANNEL } from "../assets/Channels";
 import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
 import checkArguments from "../utils/checkArguments";
+import checkPermissions from "../utils/checkPermissions";
 import getCorrectUsage from "../utils/getCorrectUsage";
 
 module.exports = {
@@ -11,7 +12,14 @@ module.exports = {
   // a * in front of an argument means it has to be an URL
   argumentsSchema: ["Title", "Message"],
   isMultiWord: true, // if the arguments need to be separated by ""
-  run(msg: any, args: string): FunctionResponse {
+  async run(msg: any, args: string): Promise<FunctionResponse> {
+    const hasPermissions = await checkPermissions(msg.author, msg.guild);
+    if (!hasPermissions)
+      return {
+        status: false,
+        message: ["User is not a manager"],
+      };
+
     const argumentsResponse = checkArguments(
       args,
       this.argumentsSchema,

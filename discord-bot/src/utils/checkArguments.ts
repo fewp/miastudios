@@ -7,10 +7,23 @@ export default (
   schema: string[],
   isMultiWord: boolean
 ): string[] | FunctionResponse => {
+  if (!args)
+    return {
+      status: false,
+      message: ["No arguments provided."],
+    };
+
   if (isMultiWord === true) {
     const argsCount: number = schema.length;
 
-    if (args.match(/"/g).length != argsCount * 2)
+    const numberOfArgsReceived: string[] = args.match(/"/g);
+    if (!numberOfArgsReceived)
+      return {
+        status: false,
+        message: ["Incorrect usage, no argument separators provided"],
+      };
+
+    if (numberOfArgsReceived.length != argsCount * 2)
       return {
         status: false,
         message: ["Invalid number of arguments."],
@@ -41,7 +54,15 @@ export default (
         message: ["URL Required in the arguments"],
       };
   } else {
+    let argsArray: string[] = args.split(` `);
+    if (argsArray.length > 1)
+      return {
+        status: false,
+        message: ["Invalid number of arguments"],
+      };
   }
-
-  return [""];
+  return {
+    status: true,
+    message: null,
+  };
 };

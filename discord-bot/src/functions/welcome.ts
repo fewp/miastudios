@@ -1,9 +1,14 @@
 import { GuildMember, MessageAttachment } from "discord.js";
-import nodeHtmlToImage from "node-html-to-image";
-import log from "../utils/betterLogger";
-import { WELCOME_CHANNEL } from "../assets/Channels";
+import {
+  TERMS_OF_SERVICE_CHANNEL,
+  TICKET_CHANNEL,
+  WELCOME_CHANNEL,
+} from "../assets/Channels";
 import { FunctionResponse } from "../types";
+import log from "../utils/betterLogger";
+import buildEmbed from "../utils/buildEmbed";
 import buildWelcomeHTML from "../utils/buildWelcomeHTML";
+const nodeHtmlToImage = require("node-html-to-image");
 
 export default async (
   guild: any,
@@ -11,6 +16,18 @@ export default async (
 ): Promise<FunctionResponse> => {
   try {
     log(`[FUNCTION USED] Welcome`);
+    const privateMessageEmbed = buildEmbed(
+      "Welcome to **Mia Studios**!",
+      `Greetings, <@${member.id}>!
+
+      If you need support, or would like to order a commission or want to apply to our team, please read our <#${TERMS_OF_SERVICE_CHANNEL}> and then proceed to follow the instructions in the <#${TICKET_CHANNEL}>.`,
+      null,
+      "Welcome"
+    );
+
+    // sends a private message to the member.
+    await member.send(privateMessageEmbed);
+
     const HTML = buildWelcomeHTML(member);
     const image: any = await nodeHtmlToImage({
       html: HTML,
@@ -19,10 +36,8 @@ export default async (
       puppeteerArgs: {
         args: ["--no-sandbox"],
       },
-      encoding: "base64",
+      encoding: "buffer",
     });
-    console.log(guild.channels);
-    console.log(guild.channels.cache);
     const welcomeChannel = await guild.channels.cache.get(WELCOME_CHANNEL);
     welcomeChannel.send(new MessageAttachment(image, `${member.id}.png`));
   } catch (error) {

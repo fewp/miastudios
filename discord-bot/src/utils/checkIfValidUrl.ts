@@ -1,4 +1,9 @@
 export default (url: string): boolean => {
+  if (url.toLowerCase().charAt(0) != "h") return false;
+  if (url.toLowerCase().charAt(1) != "t") return false;
+  if (url.toLowerCase().charAt(2) != "t") return false;
+  if (url.toLowerCase().charAt(3) != "p") return false;
+
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
       "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
@@ -8,5 +13,6 @@ export default (url: string): boolean => {
       "(\\#[-a-z\\d_]*)?$",
     "i"
   ); // fragment locator
+
   return !!pattern.test(url);
 };

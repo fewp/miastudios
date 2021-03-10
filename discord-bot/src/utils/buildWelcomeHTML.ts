@@ -1,6 +1,4 @@
 export default (member: any): string => {
-  const image = `https://cdn.discordapp.com/avatars/${member.id}/${member.avatar}`;
-
   return `
   <!DOCTYPE html>
     <html lang="en">
@@ -9,7 +7,7 @@ export default (member: any): string => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta http-equiv="X-UA-Compatible" content="ie=edge" />
             <style>
-              @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap');
+              @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;800&display=swap');
               * {
                 margin: 0;
                 padding: 0;
@@ -36,7 +34,7 @@ export default (member: any): string => {
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-                padding: 50px 100px;
+                padding: 50px 130px;
                 z-index: 300;
               }
 
@@ -59,7 +57,7 @@ export default (member: any): string => {
                 height: 300px;
                 min-height: 300px;
                 max-height: 300px;
-                background: linear-gradient(90deg, rgba(18,18,18, 0.25) 0px, rgba(18,18,18,1) 290px);
+                background: linear-gradient(90deg, rgba(11, 11, 11, 0.25) 0px, rgba(11, 11, 11, 1) 290px);
                 top: 0;
                 left: 0;
                 position: absolute;
@@ -74,7 +72,7 @@ export default (member: any): string => {
                 max-width: 200px;
                 width: 200px;
                 box-sizing: contain;
-                margin-right: 25px;
+                margin-right: 40px;
               }
               
               .container {
@@ -86,15 +84,16 @@ export default (member: any): string => {
                 width: 100%;
               }
               .subtitle {
-                font-size: 28px;
-                line-height: 28px;
+                font-size: 26px;
+                line-height: 26px;
                 font-weight: 300;
                 text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.75);
               }
               .title {
                 font-size: 72px;
                 line-height: 72px;
-                font-weight: 700;
+                font-weight: 800;
                 text-transform: uppercase;
               }
 
@@ -103,12 +102,12 @@ export default (member: any): string => {
         </head>
         <body>
             <div class="overlay"></div>
-            <img src="${image}" alt="user-avatar" class="user-avatar"/>
+            <img src="https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}" alt="user-avatar" class="user-avatar"/>
             <div class="welcome-container">
                 <img src="https://i.imgur.com/c4rIyMf.png" alt="logo" class="logo">
                 <div class="container">
                   <h5 class="subtitle">WELCOME TO MIASTUDIOS!</h5>
-                  <h1 class="title">${member.username}</h1>
+                  <h1 class="title">${member.user.username}</h1>
                 </div>
             </div>
         </body>
