@@ -1,13 +1,9 @@
-import { Message, User } from "discord.js";
+import { GuildMember, Message, User } from "discord.js";
 import fs from "fs";
-import {
-  INFORMATION_CHANNEL,
-  PRIORITY_TICKET_CHANNEL,
-  REACTION_MESSAGE_CHANNELS_ARRAY,
-  TERMS_OF_SERVICE_CHANNEL,
-  TICKET_CHANNEL,
-} from "./assets/Channels";
+import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
 import log from "./utils/betterLogger";
+import counter from "./functions/counter";
+import welcome from "./functions/welcome";
 
 require("dotenv-safe").config();
 
@@ -87,4 +83,20 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
   } catch (error) {
     log(`[ERROR] ${error}`);
   }
+});
+
+discordClient.on("guildMemberAdd", async (member: GuildMember) => {
+  const guild = await discordClient.guilds.cache.get(
+    process.env.DISCORD_GUILD_ID
+  );
+
+  welcome(guild, member);
+  counter(guild);
+});
+
+discordClient.on("guildMemberRemove", async (_member: GuildMember) => {
+  const guild = await discordClient.guilds.cache.get(
+    process.env.DISCORD_GUILD_ID
+  );
+  counter(guild);
 });

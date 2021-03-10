@@ -1,6 +1,8 @@
 node_modules/
 dist/
 
+old/
+oldsrc/
 
 config.json
 discord-bot/old/
