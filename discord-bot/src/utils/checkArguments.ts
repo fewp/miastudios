@@ -7,7 +7,7 @@ export default (
   schema: string[],
   isMultiWord: boolean
 ): string[] | FunctionResponse => {
-  if (!args)
+  if (!args && schema !== null)
     return {
       status: false,
       message: ["No arguments provided."],

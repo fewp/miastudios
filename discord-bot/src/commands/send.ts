@@ -13,49 +13,15 @@ import {
 } from "../assets/Emojis";
 import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
-import checkArguments from "../utils/checkArguments";
-import getCorrectUsage from "../utils/getCorrectUsage";
 
 module.exports = {
   name: "Send",
   description: "Sends a pre-built embed to the specificated channel",
-  // a * in front of an argument means it has to be an URL
   argumentsSchema: ["Name"],
+  permissionRequired: "MANAGER",
   isMultiWord: false, // if the arguments need to be separated by ""
   async run(msg: any, args: string): Promise<FunctionResponse> {
-    const argumentsResponse = checkArguments(
-      args,
-      this.argumentsSchema,
-      this.isMultiWord
-    );
-
-    // means it has returned an error
-    if (
-      argumentsResponse.hasOwnProperty("status") &&
-      (argumentsResponse as FunctionResponse).status === false
-    ) {
-      const errorMessage = (argumentsResponse as FunctionResponse).message[0];
-      const errorEmbed = buildEmbed(
-        "Error!",
-        `${errorMessage}
-        
-        Correct usage: 
-        ${getCorrectUsage(this.argumentsSchema, this.name)}`,
-        null,
-        this.name
-      );
-
-      // sends feedback to the administrator
-      msg.channel.send(errorEmbed);
-
-      // returns error message so it can be logged
-      return {
-        status: false,
-        message: [errorMessage],
-      };
-    }
-
-    let errorMessage: string[] = [""];
+    // default permissions
 
     switch (args) {
       case "ticket":

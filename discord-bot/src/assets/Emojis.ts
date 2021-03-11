@@ -11,8 +11,8 @@
 
 // core emojis, used in every embed
 export const LOGO_EMOJI = {
-  text: "<:logo:818639036758622228>",
-  id: "818639036758622228",
+  text: "<:logo:819699952581083157>",
+  id: "819699952581083157",
 };
 export const ARROW_RIGHT_EMOJI = {
   text: "<:arrowRight:818639541703409674>",

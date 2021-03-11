@@ -27,8 +27,10 @@ module.exports = {
   async run(
     member: GuildMember,
     guild: Guild,
-    reactionId: any
+    reaction: any
   ): Promise<FunctionResponse> {
+    const reactionId = reaction._emoji.id;
+
     // check if user is in db already
     const response = await getInformation(member.id);
     if (response) {

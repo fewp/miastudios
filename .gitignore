@@ -1,11 +1,6 @@
 node_modules/
 dist/
 
-old/
-oldsrc/
-
-config.json
-discord-bot/old/
 .env
 
-main.db
+old.json

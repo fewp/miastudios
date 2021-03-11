@@ -1,8 +1,10 @@
 ## Todo
 
 - Add permissions to each command, preventing regular members from using them
+  - ticket functions
 - Add alias to commands so they can be shortened (Ex: `-showcase` -> `-sc`)
 - Create reviews CRUD so the data can be used on their website later
+- Create tickets CRUD
 
 ---
 

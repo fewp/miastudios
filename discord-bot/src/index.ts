@@ -4,7 +4,11 @@ import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
 import createConnection from "./db/createConnection";
 import counter from "./functions/counter";
 import welcome from "./functions/welcome";
+import { FunctionResponse } from "./types";
 import log from "./utils/betterLogger";
+import buildEmbed from "./utils/buildEmbed";
+import checkArguments from "./utils/checkArguments";
+import getCorrectUsage from "./utils/getCorrectUsage";
 
 require("dotenv-safe").config();
 
@@ -42,29 +46,70 @@ for (const file of reactionFunctions) {
 discordClient.login(process.env.DISCORD_TOKEN);
 discordClient.once("ready", () => {});
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// COMMANDS THAT ARE CALLED THROUGH CHAT
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 discordClient.on(`message`, async (msg: Message) => {
+  // ignoring the message if the user is a bot or it doesn't start with the server's prefix
   if (!msg.content.startsWith(`${process.env.PREFIX}`) || msg.author.bot)
     return;
+  // getting the arguments (if there are any)
   let args = msg.content.slice(`${process.env.PREFIX}`.length).trim();
+  // separating the command from the rest of the message
   const command = args.split(/ +/).shift().toLowerCase();
+  // removing the command from the arguments (+1 for space)
   args = args.slice(command.length + 1);
 
   // if the command doesn't exist
   if (!discordClient.commands.has(command)) return;
   log(`[COMMAND USED] ${command}`);
   log(`[ARGS] ${args}`);
-  try {
-    const commandResponse = await discordClient.commands
-      .get(command)
-      .run(msg, args);
 
+  try {
+    // gets command
+    const usedCommand = await discordClient.commands.get(command);
+
+    // checking if the arguments are valid using the schema provided in the command module
+    const argumentsResponse = checkArguments(
+      args,
+      usedCommand.argumentsSchema,
+      usedCommand.isMultiWord
+    );
+
+    // means it has returned an error when running the argument verification
+    if ((argumentsResponse as FunctionResponse).status === false) {
+      // errors always return @ index 0 of the message array
+      const errorMessage = (argumentsResponse as FunctionResponse).message[0];
+      // building the error embed to send to the user
+      const errorEmbed = buildEmbed(
+        "Error!",
+        `${errorMessage}
+
+      Correct usage:
+      ${getCorrectUsage(usedCommand.argumentsSchema, usedCommand.name)}`,
+        null,
+        usedCommand.alias
+      );
+
+      // sends feedback to the administrator
+      msg.channel.send(errorEmbed);
+    }
+
+    // running the command and saving the response
+    const commandResponse = await usedCommand.run(msg, argumentsResponse);
+
+    // if status is false, it means the command has returned an error
     if (!commandResponse.status) log(`[ERROR] ${commandResponse.message[0]}`);
+    // if no status in the commandResponse, it means the command has ran succesfully
     else log(`[SUCCESS] Command ran succesfully`);
   } catch (error) {
     log(`[ERROR] ${error}`);
   }
 });
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// FUNCTIONS THAT ARE CALLED THROUGH REACTIONS
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
   if (reaction.message.partial) await reaction.message.fetch();
   if (reaction.partial) await reaction.fetch();
@@ -87,12 +132,28 @@ discordClient.on(`messageReactionAdd`, async (reaction: any, user: User) => {
     log("[ERROR] Couldn't remove a reaction");
   }
 
-  if (!discordClient.reactionFunctions.has(message_id)) return;
-  const fn = discordClient.reactionFunctions.get(message_id);
+  let isTicketFunction: boolean = false;
+
+  // getting ticket function manually, since listens to multiple messages
+  let fn = discordClient.reactionFunctions.get("ticket");
+
+  // means the reaction was added in a ticket message, making this a ticket function
+  if (fn.messages.includes(message_id)) isTicketFunction = true;
+
+  // if it is not a ticket function and doesn't exist in the functions collection, return
+  if (!isTicketFunction && !discordClient.reactionFunctions.has(message_id))
+    return;
+
+  // fetching the function and saving it in the fn variable if it is not a ticket function
+  if (!isTicketFunction) fn = discordClient.reactionFunctions.get(message_id);
   log(`[FUNCTION USED] ${fn.name}`);
+
   try {
-    const response = await fn.run(member, guild, reaction._emoji.id);
-    if (response.status == false) log(`[ERROR] ${response.message[0]}`);
+    // saving function response to a const for feedback and logging
+    const response = await fn.run(member, guild, reaction);
+
+    // resposnse status false means it has returned an error
+    if (response.status === false) log(`[ERROR] ${response.message[0]}`);
     else log(`[SUCCESS] Function ran succesfully`);
   } catch (error) {
     log(`[ERROR] ${error}`);
