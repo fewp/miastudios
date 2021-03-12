@@ -88,7 +88,8 @@ discordClient.on(`message`, async (msg: Message) => {
       Correct usage:
       ${getCorrectUsage(usedCommand.argumentsSchema, usedCommand.name)}`,
         null,
-        usedCommand.alias
+        usedCommand.alias,
+        true
       );
 
       // sends feedback to the administrator

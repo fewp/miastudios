@@ -1,4 +1,4 @@
-import { ARROW_RIGHT_EMOJI, LOGO_EMOJI } from "../assets/Emojis";
+import { ARROWRIGHT_EMOJI, LOGO_EMOJI } from "../assets/Emojis";
 import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
 
@@ -15,15 +15,16 @@ module.exports = {
       `${LOGO_EMOJI.text} Quote Information`,
       `Items to quote your project:
 
-    ${ARROW_RIGHT_EMOJI.text} Type of construction (Lobby, spawn, arena, etc.)
-    ${ARROW_RIGHT_EMOJI.text} Size (100x100, 500x500, 1000x1000, etc)
-    ${ARROW_RIGHT_EMOJI.text} Theme
-    ${ARROW_RIGHT_EMOJI.text} Reference image
-    ${ARROW_RIGHT_EMOJI.text} Specific constructions (warps, stores, etc.) and quantity
-    ${ARROW_RIGHT_EMOJI.text} Minimum / maximum budget
-    ${ARROW_RIGHT_EMOJI.text} Level of detail (with interior, underground, etc.)`,
+    ${ARROWRIGHT_EMOJI.text} Type of construction (Lobby, spawn, arena, etc.)
+    ${ARROWRIGHT_EMOJI.text} Size (100x100, 500x500, 1000x1000, etc)
+    ${ARROWRIGHT_EMOJI.text} Theme
+    ${ARROWRIGHT_EMOJI.text} Reference image
+    ${ARROWRIGHT_EMOJI.text} Specific constructions (warps, stores, etc.) and quantity
+    ${ARROWRIGHT_EMOJI.text} Minimum / maximum budget
+    ${ARROWRIGHT_EMOJI.text} Level of detail (with interior, underground, etc.)`,
       null,
-      this.alias
+      this.alias,
+      true
     );
 
     // sending the message to the announcements channel

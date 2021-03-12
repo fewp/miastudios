@@ -1,15 +1,17 @@
 import { Guild, GuildMember, TextChannel } from "discord.js";
 import {
-  APPLICATION_TICKET_PARENT_CHANNEL,
-  COMMISSION_TICKET_PARENT_CHANNEL,
-  PRIORITY_COMMISSION_TICKET_PARENT_CHANNEL,
-  PRIORITY_SUPPORT_TICKET_PARENT_CHANNEL,
+  APPLICATIONS_PARENT_CHANNEL,
+  NORMAL_COMMISSIONS_PARENT_CHANNEL,
+  NORMAL_SUPPORT_PARENT_CHANNEL,
+  PRIORITY_SUPPORT_PARENT_CHANNEL,
+  PRIORITY_TICKETS_PARENT_CHANNEL,
   PRIORITY_TICKET_CHANNEL,
-  SUPPORT_TICKET_PARENT_CHANNEL,
 } from "../../assets/Channels";
 import {
   APPLICATION_EMOJI,
+  ARROWRIGHT_EMOJI,
   COMMISSION_EMOJI,
+  LOGO_EMOJI,
   SUPPORT_EMOJI,
 } from "../../assets/Emojis";
 import {
@@ -20,7 +22,15 @@ import {
   SUPPORT_TICKET_MESSAGE,
 } from "../../assets/Messages";
 import { EVERYONE_ROLE_ID, MANAGEMENT_ROLE_ID } from "../../assets/Roles";
+import { createOldTicket } from "../../db/resolvers/oldTicket";
+import {
+  createTicket,
+  deleteTicket,
+  getTicket,
+} from "../../db/resolvers/ticket";
 import { FunctionResponse } from "../../types";
+import log from "../../utils/betterLogger";
+import buildEmbed from "../../utils/buildEmbed";
 
 module.exports = {
   name: "CreateTicket",
@@ -33,31 +43,59 @@ module.exports = {
     PRIORITY_COMMISSION_TICKET_MESSAGE,
     PRIORITY_SUPPORT_TICKET_MESSAGE,
   ],
+  alias: "Ticket Creation",
   async run(
     member: GuildMember,
     guild: Guild,
     reaction: any
   ): Promise<FunctionResponse> {
+    const oldTicket = await getTicket(member.id);
+    if (oldTicket) {
+      const hasChannel = await guild.channels.cache.get(oldTicket.channelId);
+
+      if (hasChannel) {
+        const privateMessageEmbed = buildEmbed(
+          `${LOGO_EMOJI.text} Ticket Creation Failed`,
+          `You already have a **${oldTicket.type}** ticket channel.
+          Please use that instead.
+        
+        ${ARROWRIGHT_EMOJI.text} <#${oldTicket.channelId}>
+        `,
+          null,
+          this.alias,
+          true
+        );
+        await member.send(privateMessageEmbed);
+        return {
+          status: false,
+          message: ["User already has a ticket channel"],
+        };
+      } else {
+        log(`[ADDED] Ticket ${oldTicket.id} added to "old_ticket" table`);
+        await createOldTicket(
+          oldTicket.owner,
+          oldTicket.channelId,
+          oldTicket.type
+        );
+        log(`[DELETED] Ticket ${oldTicket.id} deleted from "ticket" table`);
+        await deleteTicket(oldTicket.id);
+      }
+    }
+
     let ticketType: string = "";
     let parentChannel: string = "";
 
-    console.log("reaction._emoji.id: ", reaction._emoji.id);
-    console.log("reaction.message.channel.id: ", reaction.message.channel.id);
-    console.log("COMMISSION_EMOJI.id: ", COMMISSION_EMOJI.id);
-    console.log("APPLICATION_EMOJI.id: ", APPLICATION_EMOJI.id);
-    console.log("SUPPORT_EMOJI.id: ", SUPPORT_EMOJI.id);
-    console.log("member.id: ", member.id);
-
+    // getting ticketType and parentChannel
     switch (reaction._emoji.id) {
       // if it is a commission ticket
       case COMMISSION_EMOJI.id:
         // checking if it is a priority commission or just a regular one
         if (reaction.message.channel.id === PRIORITY_TICKET_CHANNEL) {
           ticketType = "Priority Commission";
-          parentChannel = PRIORITY_COMMISSION_TICKET_PARENT_CHANNEL;
+          parentChannel = PRIORITY_TICKETS_PARENT_CHANNEL;
         } else {
           ticketType = "Commission";
-          parentChannel = COMMISSION_TICKET_PARENT_CHANNEL;
+          parentChannel = NORMAL_COMMISSIONS_PARENT_CHANNEL;
         }
         break;
       // if it is a support ticket
@@ -65,23 +103,26 @@ module.exports = {
         // checking if it is priority support or just a regular support
         if (reaction.message.channel.id === PRIORITY_TICKET_CHANNEL) {
           ticketType = "Priority Support";
-          parentChannel = PRIORITY_SUPPORT_TICKET_PARENT_CHANNEL;
+          parentChannel = PRIORITY_SUPPORT_PARENT_CHANNEL;
         } else {
           ticketType = "Support";
-          parentChannel = SUPPORT_TICKET_PARENT_CHANNEL;
+          parentChannel = NORMAL_SUPPORT_PARENT_CHANNEL;
         }
         break;
       // if it is an application ticket
       case APPLICATION_EMOJI.id:
         // application has no priority channel, so no need for another if statement
         ticketType = "Application";
-        parentChannel = APPLICATION_TICKET_PARENT_CHANNEL;
+        parentChannel = APPLICATIONS_PARENT_CHANNEL;
         break;
     }
 
+    // clearing the user's displayName
     const nickname: string = member.displayName
       .replace(/[^a-zA-Z0-9]/g, "")
       .toLowerCase();
+
+    // creating the ticket in db
 
     await guild.channels
       .create(`💬│ticket-${nickname}`, {
@@ -102,6 +143,8 @@ module.exports = {
         ],
       })
       .then(async (c: TextChannel) => {
+        // await c.overwritePermissions([
+
         // adding it to the right category
         await c.setParent(parentChannel);
 
@@ -112,6 +155,15 @@ module.exports = {
         await c.send(`<@${member.id}>`).then((m) => {
           m.delete({ timeout: 1 });
         });
+
+        try {
+          createTicket(member.id, c.id, ticketType);
+        } catch (error) {
+          return {
+            status: false,
+            message: error,
+          };
+        }
 
         return {
           status: true,

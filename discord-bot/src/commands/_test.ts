@@ -1,23 +1,18 @@
-import { MessageAttachment } from "discord.js";
-import buildWelcomeHTML from "../utils/buildWelcomeHTML";
+import { getInformationCount } from "../db/resolvers/information";
+import { FunctionResponse } from "../types";
 
-const nodeHtmlToImage = require("node-html-to-image");
 module.exports = {
   name: "test",
-  description: "Tests a function",
-  // a * in front of an argument means it has to be an URL
+  description: "Sends an announcement to the #announcements channel",
+  permissionRequired: "MANAGER",
   argumentsSchema: null,
-  async run(msg: any) {
-    const HTML = buildWelcomeHTML(msg.author);
-    const images = await nodeHtmlToImage({
-      html: HTML,
-      quality: 100,
-      type: "png",
-      puppeteerArgs: {
-        args: ["--no-sandbox"],
-      },
-      encoding: "buffer",
-    });
-    msg.channel.send(new MessageAttachment(images, `${msg.author.id}.png`));
+  isMultiWord: false, // if the arguments need to be separated by ""
+  async run(msg: any): Promise<FunctionResponse> {
+    await getInformationCount("796646516172521472");
+
+    return {
+      status: true,
+      message: null,
+    };
   },
 };

@@ -1,3 +1,3 @@
-export const MEMBER_ROLE_ID: string = "818620410504806412";
-export const EVERYONE_ROLE_ID: string = "818620410504806411"; // same as guild id
-export const MANAGEMENT_ROLE_ID: string = "818620410542948392";
+export const EVERYONE_ROLE_ID: string = "819835649820721192";
+export const MEMBER_ROLE_ID: string = "819835649820721193"; // 🥥· Member
+export const MANAGEMENT_ROLE_ID: string = "819835649838415902"; // 🍎 · Management

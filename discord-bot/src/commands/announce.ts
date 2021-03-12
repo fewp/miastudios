@@ -17,7 +17,7 @@ module.exports = {
     // ["Title", "Client", "Dimensions", "Render", "*Image URL"],
 
     // building announcement embed
-    const embed = buildEmbed(args[0], args[1], null, this.alias);
+    const embed = buildEmbed(args[0], args[1], null, this.alias, true);
 
     // sending the message to the announcements channel
     await announcementsChannel.send(embed);

@@ -6,7 +6,7 @@ export default (
   args: string,
   schema: string[],
   isMultiWord: boolean
-): string[] | FunctionResponse => {
+): string[] | string | FunctionResponse => {
   if (!args && schema !== null)
     return {
       status: false,
@@ -60,9 +60,6 @@ export default (
         status: false,
         message: ["Invalid number of arguments"],
       };
+    else return argsArray[0];
   }
-  return {
-    status: true,
-    message: null,
-  };
 };

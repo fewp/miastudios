@@ -18,7 +18,8 @@ module.exports = {
       null,
       `**${args[0]}**\nClient: ${args[1]}\nDimensions: ${args[2]}\nRender: ${args[3]}`,
       args[4],
-      this.name
+      this.name,
+      true
     );
 
     await showcaseChannel.send(embed);

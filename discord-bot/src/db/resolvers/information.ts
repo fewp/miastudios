@@ -28,6 +28,12 @@ export const getInformationArray = async (): Promise<Information[] | null> => {
   return await Information.find();
 };
 
+export const getInformationCount = async (
+  reactionId: string
+): Promise<number | null> => {
+  return await Information.count({ where: { reactionId } });
+};
+
 // fetches a single "information" row from DB
 export const getInformation = async (
   userId: string

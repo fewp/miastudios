@@ -1,7 +1,7 @@
 import { GuildMember, MessageAttachment } from "discord.js";
 import {
+  CREATE_A_TICKET_CHANNEL,
   TERMS_OF_SERVICE_CHANNEL,
-  TICKET_CHANNEL,
   WELCOME_CHANNEL,
 } from "../assets/Channels";
 import { FunctionResponse } from "../types";
@@ -20,9 +20,10 @@ export default async (
       "Welcome to **Mia Studios**!",
       `Greetings, <@${member.id}>!
 
-      If you need support, or would like to order a commission or want to apply to our team, please read our <#${TERMS_OF_SERVICE_CHANNEL}> and then proceed to follow the instructions in the <#${TICKET_CHANNEL}>.`,
+      If you need would like to order a commission, need support or want to apply to our team, please read our <#${TERMS_OF_SERVICE_CHANNEL}> and then proceed to follow the instructions in the <#${CREATE_A_TICKET_CHANNEL}>.`,
       null,
-      "Welcome"
+      "Welcome",
+      true
     );
 
     // sends a private message to the member.

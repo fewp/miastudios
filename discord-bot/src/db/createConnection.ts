@@ -1,5 +1,7 @@
 import { createConnection } from "typeorm";
 import { Information } from "./entities/Information";
+import { OldTicket } from "./entities/OldTicket";
+import { Ticket } from "./entities/Ticket";
 
 export default () => {
   return createConnection({
@@ -9,6 +11,6 @@ export default () => {
     password: process.env.DB_PASSWORD,
     // logging: true, // uncomment for debugging
     synchronize: true, // automatically creates tables in DB, based on entities
-    entities: [Information],
+    entities: [Information, Ticket, OldTicket],
   });
 };

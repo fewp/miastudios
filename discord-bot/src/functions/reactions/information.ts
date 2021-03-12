@@ -7,15 +7,14 @@ import {
   YOUTUBE_EMOJI,
 } from "../../assets/Emojis";
 import {
-  INFOMATION_MIRROR_MESSAGE,
   INFORMATION_MESSAGE,
+  INFORMATION_MIRROR_MESSAGE,
 } from "../../assets/Messages";
-import { Information } from "../../db/entities/Information";
 import {
   createInformation,
   deleteInformation,
   getInformation,
-  getInformationArray,
+  getInformationCount,
 } from "../../db/resolvers/information";
 import { FunctionResponse } from "../../types";
 import buildEmbed from "../../utils/buildEmbed";
@@ -48,31 +47,11 @@ module.exports = {
       };
     }
 
-    // fetches all data from information table
-    const informationArray = await getInformationArray();
-
-    // initializes variables for counter
-    let invitedCount: number = 0;
-    let twitterCount: number = 0;
-    let youtubeCount: number = 0;
-    let otherCount: number = 0;
-
-    informationArray.forEach((information: Information) => {
-      switch (information.reactionId) {
-        case INVITED_EMOJI.id:
-          invitedCount++;
-          break;
-        case TWITTER_EMOJI.id:
-          twitterCount++;
-          break;
-        case YOUTUBE_EMOJI.id:
-          youtubeCount++;
-          break;
-        case OTHER_EMOJI.id:
-          otherCount++;
-          break;
-      }
-    });
+    // counters
+    const invitedCount: number = await getInformationCount(INVITED_EMOJI.id);
+    const twitterCount: number = await getInformationCount(TWITTER_EMOJI.id);
+    const youtubeCount: number = await getInformationCount(YOUTUBE_EMOJI.id);
+    const otherCount: number = await getInformationCount(OTHER_EMOJI.id);
 
     const box = "`"; // util for code in embeds
     // text for embed
@@ -81,7 +60,13 @@ module.exports = {
         ${YOUTUBE_EMOJI.text} ${box} YOUTUBE  ${box} | **${youtubeCount}** 
         ${OTHER_EMOJI.text} ${box} OTHER    ${box} | **${otherCount}**`;
 
-    const embed = buildEmbed("Where did you find us?", text, null, this.name);
+    const embed = buildEmbed(
+      "Where did you find us?",
+      text,
+      null,
+      this.name,
+      true
+    );
 
     // channel available for admins only
     // they can see the information there
@@ -92,7 +77,7 @@ module.exports = {
     // edit old message with updated data
     await (mirrorChannel as TextChannel).messages
       .fetch({
-        around: INFOMATION_MIRROR_MESSAGE,
+        around: INFORMATION_MIRROR_MESSAGE,
         limit: 1,
       })
       .then(async (messages) => {
