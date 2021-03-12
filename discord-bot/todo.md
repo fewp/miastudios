@@ -4,13 +4,11 @@
   - ticket functions
 - Add alias to commands so they can be shortened (Ex: `-showcase` -> `-sc`)
 - Create reviews CRUD so the data can be used on their website later
-- Create tickets CRUD
 
 ---
 
 ### Commands
 
-- checklistquote
 - review
 - help
 
