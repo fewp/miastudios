@@ -25,12 +25,14 @@ import buildEmbed from "../utils/buildEmbed";
 
 module.exports = {
   name: "Send",
+  alias: "Send",
   description: "Sends a pre-built embed to the specificated channel",
-  argumentsSchema: ["Name"],
-  permissionRequired: "MANAGER",
+  argumentsSchema: ["Message"],
+  permissionRequired: ["DEVELOPER"],
   isMultiWord: false, // if the arguments need to be separated by ""
-  async run(guild: any, args: string): Promise<FunctionResponse> {
+  async run(msg: any, args: string): Promise<FunctionResponse> {
     // default permissions
+    const guild = msg.guild;
 
     switch (args) {
       case "ticket":

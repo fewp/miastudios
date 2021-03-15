@@ -4,9 +4,12 @@ import { FunctionResponse } from "../types";
 const old = require("../../old.json");
 
 module.exports = {
-  name: "upload",
+  name: "Upload",
   alias: "Data Upload",
   description: "Uploads old data from file",
+  permissionRequired: ["DEVELOPER"],
+  argumentsSchema: null,
+  isMultiWord: false,
   run(): FunctionResponse {
     console.log("old", old);
     console.log("old.length", old.length);

@@ -6,7 +6,7 @@ module.exports = {
   name: "quote",
   alias: "Quote",
   description: "Sends a message containing information about the project",
-  permissionRequired: "MANAGER",
+  permissionRequired: ["MANAGER"],
   argumentsSchema: null,
   isMultiWord: false, // if the arguments need to be separated by ""
   async run(msg: any, _args: string[]): Promise<FunctionResponse> {

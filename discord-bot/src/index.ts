@@ -1,6 +1,7 @@
 import { GuildMember, Message, User } from "discord.js";
 import fs from "fs";
 import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
+import { LOGO_EMOJI } from "./assets/Emojis";
 import createConnection from "./db/createConnection";
 import counter from "./functions/counter";
 import welcome from "./functions/welcome";
@@ -8,7 +9,9 @@ import { FunctionResponse } from "./types";
 import log from "./utils/betterLogger";
 import buildEmbed from "./utils/buildEmbed";
 import checkArguments from "./utils/checkArguments";
+import checkPermissions from "./utils/checkPermissions";
 import getCorrectUsage from "./utils/getCorrectUsage";
+import getPermissionsRequired from "./utils/getPermissionsRequired";
 
 require("dotenv-safe").config();
 
@@ -82,7 +85,7 @@ discordClient.on(`message`, async (msg: Message) => {
       const errorMessage = (argumentsResponse as FunctionResponse).message[0];
       // building the error embed to send to the user
       const errorEmbed = buildEmbed(
-        "Error!",
+        `${LOGO_EMOJI.text} Error!`,
         `${errorMessage}
 
       Correct usage:
@@ -94,6 +97,32 @@ discordClient.on(`message`, async (msg: Message) => {
 
       // sends feedback to the administrator
       msg.channel.send(errorEmbed);
+      return;
+    }
+
+    // checking user permissions
+    const permissionsResponse = await checkPermissions(
+      msg.author,
+      msg,
+      usedCommand.permissionRequired
+    );
+
+    // if the user doesnt have the required permissions
+    if (permissionsResponse.status === false) {
+      const missingPermissionsEmbed = buildEmbed(
+        `${LOGO_EMOJI.text} Error!`,
+        `${permissionsResponse.message[0]}
+        
+        ${getPermissionsRequired(usedCommand.permissionRequired)}
+        `,
+        null,
+        usedCommand.alias,
+        true
+      );
+
+      // sends feedback to the administrator
+      await msg.channel.send(missingPermissionsEmbed);
+      return;
     }
 
     // running the command and saving the response

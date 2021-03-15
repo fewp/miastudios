@@ -4,10 +4,11 @@ import buildEmbed from "../utils/buildEmbed";
 
 module.exports = {
   name: "Store",
-  description: 'Sends a "Store" message to the #store channel',
+  alias: "Store Items",
+  description: "Adds a store item message to the #store channel",
   // a * in front of an argument means it has to be an URL
   argumentsSchema: ["Title", "Price", "Dimensions", "Render", "*Image URL"],
-  permissionRequired: "MANAGER",
+  permissionRequired: ["MANAGER"],
   isMultiWord: true, // if the arguments need to be separated by ""
   async run(msg: any, args: string[]): Promise<FunctionResponse> {
     const storeChannel = await msg.channel.guild.channels.cache.get(

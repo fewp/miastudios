@@ -19,3 +19,10 @@
 - Tickets (creation, `close`, `invite <@User>`, `kick <@User>`, `leave`)
 - Social media (Twitter and Youtube)
 - Information (partially done, just need to fix IDs and message editing)
+
+### Permissions
+
+- DEVELOPER
+- TICKETOWNER
+- MANAGER
+- null

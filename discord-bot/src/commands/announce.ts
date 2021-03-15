@@ -6,7 +6,7 @@ module.exports = {
   name: "Announce",
   alias: "Announcements",
   description: "Sends an announcement to the #announcements channel",
-  permissionRequired: "MANAGER",
+  permissionRequired: ["MANAGER"],
   argumentsSchema: ["Title", "Message"],
   isMultiWord: true, // if the arguments need to be separated by ""
   async run(msg: any, args: string[]): Promise<FunctionResponse> {

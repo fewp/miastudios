@@ -8,8 +8,10 @@ import log from "../utils/betterLogger";
 
 module.exports = {
   name: "Asset",
+  alias: "Assets",
   description:
     "Gets channels, messages, emojis and roles ids, and saves them into a file",
+  permissionRequired: ["DEVELOPER"],
   // a * in front of an argument means it has to be an URL
   argumentsSchema: ["Asset"],
   isMultiWord: false,

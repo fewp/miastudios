@@ -4,11 +4,12 @@ import buildEmbed from "../utils/buildEmbed";
 
 module.exports = {
   name: "Showcase",
+  alias: "Showcases",
   description: "Sends a showcase to the #showcases channel",
   // a * in front of an argument means it has to be an URL
   argumentsSchema: ["Title", "Client", "Dimensions", "Render", "*Image URL"],
   isMultiWord: true, // if the arguments need to be separated by ""
-  permissionRequired: "MANAGER",
+  permissionRequired: ["MANAGER"],
   async run(msg: any, args: string[]): Promise<FunctionResponse> {
     const showcaseChannel = await msg.channel.guild.channels.cache.get(
       SHOWCASE_CHANNEL

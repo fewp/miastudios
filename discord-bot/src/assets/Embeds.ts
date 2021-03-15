@@ -11,7 +11,8 @@ import {
   YOUTUBE_EMOJI,
 } from "./Emojis";
 
-const box = "`";
+const box: string = "`";
+const resizer: string = null;
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Regular tickets
@@ -27,11 +28,11 @@ export const REGULAR_TICKET_EMBEDS: any[][] = [
     `**${LOGO_EMOJI.text} Welcome, this is the Mia Studios create-a-ticket center.**`,
     `Here you can create a ticket and receive instantaneous support from a member of our staff team. Make sure to make use of all of our ticket commands to make your experience creating a ticket easier and quicker:
     
-    ${box}-ticket close          ${box}| Closes your ticket.
-    ${box}-ticket leave          ${box}| Leave a ticket if you joined through an invite.
-    ${box}-ticket invite <@User> ${box}| Allows another user to join your ticket.
-    ${box}-ticket kick <@User>   ${box}| Kicks the designated user from the ticket.`,
-    null,
+    ${box}-close                 ${box}| Closes your ticket.
+    ${box}-leave                 ${box}| Leave a ticket if you joined through an invite.
+    ${box}-invite <@User>        ${box}| Allows another user to join your ticket.
+    ${box}-kick <@User>          ${box}| Kicks the designated user from the ticket.`,
+    resizer,
     "Commission Tickets",
     false,
   ],
@@ -42,7 +43,7 @@ export const REGULAR_TICKET_EMBEDS: any[][] = [
       __Estimated Support Time__: **15** minutes.
       
       **React with ${COMMISSION_EMOJI.text} to open a Commission Ticket.**`,
-    null,
+    resizer,
     "Commission Tickets",
     false,
   ],
@@ -53,7 +54,7 @@ export const REGULAR_TICKET_EMBEDS: any[][] = [
       __Estimated Support Time__: **20** minutes.
       
       **React with ${SUPPORT_EMOJI.text} to open a Support Ticket.**`,
-    null,
+    resizer,
     "Support Tickets",
     false,
   ],
@@ -64,7 +65,7 @@ export const REGULAR_TICKET_EMBEDS: any[][] = [
     __Estimated Support Time__: **20** minutes.
     
     **React with ${APPLICATION_EMOJI.text} to open an Application Ticket.**`,
-    null,
+    resizer,
     "Application Tickets",
     false,
   ],
@@ -83,11 +84,11 @@ export const PRIORITY_TICKET_EMBEDS: any[][] = [
     `**${LOGO_EMOJI.text} Welcome, this is our priority-ticket center.**`,
     `As you can see you now have two options to create a ticket and receive instantaneous support from a member of our staff team. This is because you are either a nitro booster or a frequent client. You will now have exclusive permissions now because of your amazing support. Make sure to make use of all of our ticket commands to make your experience creating a ticket easier and quicker:
     ​
-    ${box}-ticket close          ${box}| Closes your ticket.
-    ${box}-ticket leave          ${box}| Leave a ticket if you joined through an invite.
-    ${box}-ticket invite <@User> ${box}| Allows another user to join your ticket.
-    ${box}-ticket kick <@User>   ${box}| Kicks the designated user from the ticket.`,
-    null,
+    ${box}-close                 ${box}| Closes your ticket.
+    ${box}-leave                 ${box}| Leave a ticket if you joined through an invite.
+    ${box}-invite <@User>        ${box}| Allows another user to join your ticket.
+    ${box}-kick <@User>          ${box}| Kicks the designated user from the ticket.`,
+    resizer,
     "Commission Tickets",
     false,
   ],
@@ -98,7 +99,7 @@ export const PRIORITY_TICKET_EMBEDS: any[][] = [
     __Estimated Support Time__: **5** minutes.
       
       **React with ${COMMISSION_EMOJI.text} to open a Priority Commission Ticket.**`,
-    null,
+    resizer,
     "Priority Commission Tickets",
     false,
   ],
@@ -109,7 +110,7 @@ export const PRIORITY_TICKET_EMBEDS: any[][] = [
     __Estimated Support Time__: **5** minutes.
       
       **React with ${SUPPORT_EMOJI.text} to open a Priority Support Ticket.**`,
-    null,
+    resizer,
     "Priority upport Tickets",
     false,
   ],
@@ -136,7 +137,7 @@ export const TERMS_OF_SERVICE_EMBEDS: any[][] = [
   **1.12** All commissions will be provided as a .schematic file once complete - unless agreed otherwise.
   **1.13** We reserve the rights to display any completed projects on our social media and in our portfolio. If a product must however be kept secret until a given date however we may comply.
   **1.14** If payments are sent over Paypal they will be made as an invoice on Paypal.`,
-    null,
+    resizer,
     "Terms of Service",
     false,
   ],
@@ -154,7 +155,7 @@ export const TERMS_OF_SERVICE_EMBEDS: any[][] = [
     **2.8** You understand that you must come to us if you have an issue before contacting any other party. There are sometimes issues with the automated system, and we will be more than happy to help resolve any issues.
     **2.9** All products will be provided as a .schematic file inside of a .zip folder. If you have any issues with this format we are more than happy to help convert it.
     **2.10** You understand that the images provided of the products are in-game pictures (some using shader packs to enhance the products), and some renders. When purchasing any of our products you agree that you are happy with the amount of images provided - and understand the build you are buying.`,
-    null,
+    resizer,
     "Terms of Service",
     false,
   ],
@@ -167,7 +168,7 @@ export const TERMS_OF_SERVICE_EMBEDS: any[][] = [
     If an issue on behalf of Mia Studios comes up which cause Mia Studios to have to close your commission, we will offer a full 100% refund, and will offer to send any unfinished or finished work completed in the time over.
     
     If you break our Terms Of Service, Rules or break the Law we will be required to close your commission - and will not offer a refund. This includes if you are to verbally harass our builders or managers while the commission is underway.`,
-    null,
+    resizer,
     "Terms of Service",
     false,
   ],
@@ -181,7 +182,7 @@ export const TERMS_OF_SERVICE_EMBEDS: any[][] = [
     If the wrong download is provided for a build, please contact us and we will send the correct download. We may offer a partial refund of up to 50% if the build is large scale and has taken you a long time to load in as a result of the wrong product being sent, or of up to 25% if you have to wait over 24 hours for support getting the correct product.
     
     **Please react with ${CHECK_EMOJI.text} to accept these Terms and Conditions**`,
-    null,
+    resizer,
     "Terms of Service",
     true,
   ],
@@ -193,7 +194,7 @@ export const INFORMATION_EMBED: any[] = [
   ${TWITTER_EMOJI.text} I came from Twitter
   ${YOUTUBE_EMOJI.text} I came from YouTube
   ${OTHER_EMOJI.text} I came from other social media`,
-  null,
+  resizer,
   "Information",
   false,
 ];
