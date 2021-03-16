@@ -152,7 +152,7 @@ module.exports = {
         await c.setTopic(`<@${member.id}>'s ${ticketType} ticket.`);
 
         // pinging the user (so he know the channel was succesfully created)
-        await c.send(`<@${member.id}>`).then((m) => {
+        await c.send(`<@${member.id}>`).then((m: any) => {
           m.delete({ timeout: 1 });
         });
 

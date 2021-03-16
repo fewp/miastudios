@@ -3,9 +3,9 @@ import { FunctionResponse } from "../types";
 import buildEmbed from "../utils/buildEmbed";
 
 module.exports = {
-  name: "invite",
-  alias: "Ticket Invitation",
-  description: "Invites a member to the ticket",
+  name: "kick",
+  alias: "Ticket Kick",
+  description: "Removes someone from the ticket",
   permissionRequired: ["MANAGER", "TICKETOWNER"],
   argumentsSchema: ["<@User>"],
   isMultiWord: false, // if the arguments need to be separated by ""
@@ -39,18 +39,14 @@ module.exports = {
     }
 
     await msg.channel.updateOverwrite(user.id, {
-      VIEW_CHANNEL: true,
-      SEND_MESSAGES: true,
-      READ_MESSAGE_HISTORY: true,
-    });
-
-    await msg.channel.send(`<@${user.id}>`).then((m: any) => {
-      m.delete({ timeout: 1 });
+      VIEW_CHANNEL: false,
+      SEND_MESSAGES: false,
+      READ_MESSAGE_HISTORY: false,
     });
 
     const embed = await buildEmbed(
-      `${LOGO_EMOJI.text} User invited!`,
-      `${ARROWRIGHT_EMOJI.text} <@${user.id}> was invited and is now able to use this channel.`,
+      `${LOGO_EMOJI.text} User kicked!`,
+      `${ARROWRIGHT_EMOJI.text} <@${user.id}> was kicked.`,
       null,
       this.alias,
       true

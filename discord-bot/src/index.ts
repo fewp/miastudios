@@ -113,8 +113,7 @@ discordClient.on(`message`, async (msg: Message) => {
         `${LOGO_EMOJI.text} Error!`,
         `${permissionsResponse.message[0]}
         
-        ${getPermissionsRequired(usedCommand.permissionRequired)}
-        `,
+        ${getPermissionsRequired(usedCommand.permissionRequired)}`,
         null,
         usedCommand.alias,
         true

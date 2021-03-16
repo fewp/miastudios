@@ -25,17 +25,20 @@ export const createTicket = async (
   }
 };
 
-// fetches all "information" rows from DB
 export const getTicketArray = async (): Promise<Ticket[] | null> => {
   return await Ticket.find();
 };
 
-// fetches a single "information" row from DB
 export const getTicket = async (owner: string): Promise<Ticket | null> => {
   return await Ticket.findOne({ where: { owner } });
 };
 
-// deletes a single "information" row from db
+export const getTicketByChannelId = async (
+  channelId: string
+): Promise<Ticket | null> => {
+  return await Ticket.findOne({ where: { channelId } });
+};
+
 export const deleteTicket = async (id: number): Promise<boolean> => {
   await Ticket.delete(id);
   return true;

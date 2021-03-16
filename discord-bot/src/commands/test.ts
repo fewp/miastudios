@@ -17,14 +17,14 @@ module.exports = {
     );
 
     msg.delete();
-    const embed = new Discord.MessageEmbed()
-      .setColor("#fffffe")
-      .setTitle("")
-      .setDescription("description")
-      .setFooter(`Mia Studios ${module}`, `https://i.imgur.com/c4rIyMf.png`)
-      .setTimestamp()
-      .setTitle(title)
-      .setImage(image);
+    // const embed = new Discord.MessageEmbed()
+    //   .setColor("#fffffe")
+    //   .setTitle("")
+    //   .setDescription("description")
+    //   .setFooter(`Mia Studios ${module}`, `https://i.imgur.com/c4rIyMf.png`)
+    //   .setTimestamp()
+    //   .setTitle(title)
+    //   .setImage(image);
 
     return {
       status: true,
