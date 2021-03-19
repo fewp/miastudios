@@ -1,9 +1,15 @@
 import { GuildMember, Message, User } from "discord.js";
+import express from "express";
 import fs from "fs";
-import { REACTION_MESSAGE_CHANNELS_ARRAY } from "./assets/Channels";
+import http from "http";
+import {
+  REACTION_MESSAGE_CHANNELS_ARRAY,
+  SOCIAL_MEDIA_CHANNEL,
+} from "./assets/Channels";
 import { LOGO_EMOJI } from "./assets/Emojis";
 import createConnection from "./db/createConnection";
 import counter from "./functions/counter";
+import { TwitterStream } from "./functions/twitter";
 import welcome from "./functions/welcome";
 import { FunctionResponse } from "./types";
 import log from "./utils/betterLogger";
@@ -13,6 +19,13 @@ import checkPermissions from "./utils/checkPermissions";
 import getCorrectUsage from "./utils/getCorrectUsage";
 import getPermissionsRequired from "./utils/getPermissionsRequired";
 
+const YouTubeNotifier = require("youtube-notification");
+
+// express server
+const app = express();
+// server to get youtube notifications
+var server = http.createServer(app);
+
 require("dotenv-safe").config();
 
 const DiscordJS = require("discord.js");
@@ -20,15 +33,18 @@ const discordClient = new DiscordJS.Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
 
+// database connection (will automatically update tables)
 const conn = createConnection();
 
 // custom collections
 discordClient.commands = new DiscordJS.Collection(); // commands that can be used through chat.
 discordClient.reactionFunctions = new DiscordJS.Collection(); // commands that run whenever a reaction is added
 
+// reading command and function files
 const commands = fs.readdirSync("./src/commands");
 const reactionFunctions = fs.readdirSync("./src/functions/reactions");
 
+// getting commands
 for (const file of commands) {
   const command = require(`./commands/${file.split(".").shift()}.js`);
 
@@ -47,7 +63,75 @@ for (const file of reactionFunctions) {
 }
 
 discordClient.login(process.env.DISCORD_TOKEN);
-discordClient.once("ready", () => {});
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// WEBSITE CONTACT FORM
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+app.post("/contact", (req, res) => {
+  console.log(`res`, res);
+  console.log(`req`, req);
+  // get data from body and send to #contact channel
+});
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// TWITTER NOTIFICATIONS
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+discordClient.once("ready", () => {
+  // will run whenever a new tweet event is fired
+  TwitterStream.on("tweet", async (tweet: any) => {
+    if (
+      tweet.in_reply_to_status_id === null &&
+      tweet.in_reply_to_user_id === null &&
+      tweet.in_reply_to_screen_name === null &&
+      tweet.user.screen_name.toLowerCase() == "mia_studios"
+    ) {
+      // parsing tweet URL
+      const url: string =
+        "https://twitter.com/" +
+        tweet.user.screen_name +
+        "/status/" +
+        tweet.id_str;
+      try {
+        await discordClient.channels.cache
+          .get(SOCIAL_MEDIA_CHANNEL)
+          .send(`${url}`);
+      } catch (error) {
+        log(`[ERROR] ${error}`);
+      }
+    }
+  });
+});
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// YOUTUBE NOTIFICATIONS
+// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+app.get("/", (_req, res) => {
+  log(`Ping Received.`);
+  res.writeHead(200, {
+    "Content-Type": "text/plain",
+  });
+  res.end("API");
+});
+
+const notifier = new YouTubeNotifier({
+  hubCallback: `${process.env.BASE_URL}:${process.env.YOUTUBE_PORT}/yt`,
+  port: process.env.YOUTUBE_PORT,
+  path: "/yt",
+});
+
+notifier.on("notified", async (data: any) => {
+  log(`New video`);
+  await discordClient.channels.cache
+    .get(SOCIAL_MEDIA_CHANNEL)
+    .send(`${data.video.link}`);
+});
+
+// adding the miastudios channel to the listener
+notifier.subscribe(process.env.YOUTUBE_CHANNEL_ID);
+
+// adding the notifier to the express server;
+app.use("/yt", notifier.listener());
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // COMMANDS THAT ARE CALLED THROUGH CHAT

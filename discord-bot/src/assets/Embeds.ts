@@ -1,6 +1,7 @@
 import { TERMS_OF_SERVICE_CHANNEL } from "./Channels";
 import {
   APPLICATION_EMOJI,
+  ARROWRIGHT_EMOJI,
   CHECK_EMOJI,
   COMMISSION_EMOJI,
   INVITED_EMOJI,
@@ -28,10 +29,10 @@ export const REGULAR_TICKET_EMBEDS: any[][] = [
     `**${LOGO_EMOJI.text} Welcome, this is the Mia Studios create-a-ticket center.**`,
     `Here you can create a ticket and receive instantaneous support from a member of our staff team. Make sure to make use of all of our ticket commands to make your experience creating a ticket easier and quicker:
     
-    ${box}-close                 ${box}| Closes your ticket.
-    ${box}-leave                 ${box}| Leave a ticket if you joined through an invite.
-    ${box}-invite <@User>        ${box}| Allows another user to join your ticket.
-    ${box}-kick <@User>          ${box}| Kicks the designated user from the ticket.`,
+    ${box}${process.env.PREFIX}close                 ${box}| Closes your ticket.
+    ${box}${process.env.PREFIX}leave                 ${box}| Leave a ticket if you joined through an invite.
+    ${box}${process.env.PREFIX}invite <@User>        ${box}| Allows another user to join your ticket.
+    ${box}${process.env.PREFIX}kick <@User>          ${box}| Kicks the designated user from the ticket.`,
     resizer,
     "Commission Tickets",
     false,
@@ -84,10 +85,10 @@ export const PRIORITY_TICKET_EMBEDS: any[][] = [
     `**${LOGO_EMOJI.text} Welcome, this is our priority-ticket center.**`,
     `As you can see you now have two options to create a ticket and receive instantaneous support from a member of our staff team. This is because you are either a nitro booster or a frequent client. You will now have exclusive permissions now because of your amazing support. Make sure to make use of all of our ticket commands to make your experience creating a ticket easier and quicker:
     ​
-    ${box}-close                 ${box}| Closes your ticket.
-    ${box}-leave                 ${box}| Leave a ticket if you joined through an invite.
-    ${box}-invite <@User>        ${box}| Allows another user to join your ticket.
-    ${box}-kick <@User>          ${box}| Kicks the designated user from the ticket.`,
+    ${box}${process.env.PREFIX}close                 ${box}| Closes your ticket.
+    ${box}${process.env.PREFIX}leave                 ${box}| Leave a ticket if you joined through an invite.
+    ${box}${process.env.PREFIX}invite <@User>        ${box}| Allows another user to join your ticket.
+    ${box}${process.env.PREFIX}kick <@User>          ${box}| Kicks the designated user from the ticket.`,
     resizer,
     "Commission Tickets",
     false,
@@ -197,6 +198,24 @@ export const INFORMATION_EMBED: any[] = [
   resizer,
   "Information",
   false,
+];
+
+export const TIME_LIMIT_EMBED: any[] = [
+  `${LOGO_EMOJI.text} Error!`,
+  `${ARROWRIGHT_EMOJI.text} Time limit reached (${
+    parseInt(process.env.EXPIRY_TIME) / 1000 / 60
+  } minutes).`,
+  resizer,
+  "Error",
+  true,
+];
+
+export const REVIEW_FINISH_EMBED: any[] = [
+  `${LOGO_EMOJI.text} Thanks for the review!`,
+  `${ARROWRIGHT_EMOJI.text} We at Mia Studios appreciate you taking your time to give us this wonderful review!`,
+  null,
+  "review",
+  true,
 ];
 
 // priority tickets

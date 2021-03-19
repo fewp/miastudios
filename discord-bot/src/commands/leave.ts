@@ -7,7 +7,7 @@ module.exports = {
   name: "leave",
   alias: "Ticket leave",
   description: "Removes the caller from the ticket",
-  permissionRequired: ["MANAGER", "TICKETOWNER"],
+  permissionRequired: null,
   argumentsSchema: null,
   isMultiWord: false, // if the arguments need to be separated by ""
   async run(msg: any, _args: string): Promise<FunctionResponse> {
@@ -31,9 +31,10 @@ module.exports = {
         message: [errorMessage],
       };
     } else if (ticket.owner === msg.author.id) {
+      const closeCommand: string = "`close`";
       const embed = await buildEmbed(
         `${LOGO_EMOJI.text} Error!`,
-        `${ARROWRIGHT_EMOJI.text} A ticket owner can't leave it's own ticket.`,
+        `${ARROWRIGHT_EMOJI.text} A ticket owner can't leave it's own ticket, use ${process.env.PREFIX}${closeCommand} instead.`,
         null,
         this.alias,
         true
