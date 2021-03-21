@@ -11,8 +11,6 @@ module.exports = {
   argumentsSchema: null,
   isMultiWord: false,
   run(): FunctionResponse {
-    console.log("old", old);
-    console.log("old.length", old.length);
     old.forEach(async (item: any) => {
       const result = createInformation(item.user_id, item.reaction);
     });

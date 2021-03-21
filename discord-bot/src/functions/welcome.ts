@@ -28,15 +28,29 @@ export default async (
 
     // sends a private message to the member.
     await member.send(privateMessageEmbed);
+    const puppeteerArgs = {
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-accelerated-2d-canvas",
+        "--no-first-run",
+        "--headless",
+        "--no-zygote",
+        "--disable-gpu",
+      ],
+      headless: true,
+      ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ["--disable-extensions"],
+      executablePath: "/usr/bin/chromium-browser",
+    };
 
     const HTML = buildWelcomeHTML(member);
     const image: any = await nodeHtmlToImage({
       html: HTML,
       quality: 100,
       type: "png",
-      puppeteerArgs: {
-        args: ["--no-sandbox"],
-      },
+      puppeteerArgs: puppeteerArgs,
       encoding: "buffer",
     });
     const welcomeChannel = await guild.channels.cache.get(WELCOME_CHANNEL);

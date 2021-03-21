@@ -107,23 +107,26 @@ discordClient.once("ready", () => {
 // YOUTUBE NOTIFICATIONS
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 app.get("/", (_req, res) => {
-  log(`Ping Received.`);
+  log(`[PING] Ping Received.`);
   res.writeHead(200, {
     "Content-Type": "text/plain",
   });
   res.end("API");
 });
 
+const listener = server.listen(6969, function () {
+  log(`[READY] Listening on port 6969`);
+});
+
 const notifier = new YouTubeNotifier({
   hubCallback: `${process.env.BASE_URL}:${process.env.YOUTUBE_PORT}/yt`,
-  port: process.env.YOUTUBE_PORT,
-  path: "/yt",
 });
 
 notifier.on("notified", async (data: any) => {
   log(`New video`);
-  await discordClient.channels.cache
-    .get(SOCIAL_MEDIA_CHANNEL)
+  await discordClient.guilds.cache
+    .get(process.env.DISCORD_GUILD_ID)
+    .channels.cache.get(SOCIAL_MEDIA_CHANNEL)
     .send(`${data.video.link}`);
 });
 
@@ -132,7 +135,6 @@ notifier.subscribe(process.env.YOUTUBE_CHANNEL_ID);
 
 // adding the notifier to the express server;
 app.use("/yt", notifier.listener());
-
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // COMMANDS THAT ARE CALLED THROUGH CHAT
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

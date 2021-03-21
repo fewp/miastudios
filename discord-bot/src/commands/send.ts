@@ -3,7 +3,6 @@ import {
   INFORMATION_CHANNEL,
   INFORMATION_MIRROR_CHANNEL,
   PRIORITY_TICKET_CHANNEL,
-  TERMS_OF_SERVICE_CHANNEL,
 } from "../assets/Channels";
 import {
   INFORMATION_EMBED,
@@ -79,9 +78,7 @@ module.exports = {
         informationMirrorChannel.send("Awaiting reactions...");
         break;
       case "tos":
-        const tosChannel = await guild.channels.cache.get(
-          TERMS_OF_SERVICE_CHANNEL
-        );
+        const tosChannel = msg.channel;
         TERMS_OF_SERVICE_EMBEDS.forEach(async (embed: any, index: number) => {
           await tosChannel
             .send(await buildEmbed.apply(this, embed))

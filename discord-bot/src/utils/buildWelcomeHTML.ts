@@ -1,4 +1,28 @@
 export default (member: any): string => {
+  const username = member.user.username.substring(0, 24); // max 24 characters
+
+  const body: string = `<body>
+    <div class="overlay"></div>
+    <img src="https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}" alt="user-avatar" class="user-avatar"/>
+    <div class="welcome-container">
+        <img src="https://i.imgur.com/c4rIyMf.png" alt="logo" class="logo">
+        <div class="container">
+          <h5 class="subtitle">WELCOME TO MIASTUDIOS!</h5>
+        <h1 class="title">${username}</h1>
+        </div>
+    </div>
+  </body>`;
+
+  let fontSize: number = 72;
+  const usernameLength: number = username.length; // maximum 24 characters
+
+  if (usernameLength < 6) fontSize = 72;
+  else if (usernameLength >= 6 && usernameLength < 8) fontSize = 54;
+  else if (usernameLength >= 8 && usernameLength < 9) fontSize = 48;
+  else if (usernameLength >= 9 && usernameLength < 11) fontSize = 40;
+  else if (usernameLength >= 11 && usernameLength < 13) fontSize = 34;
+  else fontSize = 32;
+
   return `
   <!DOCTYPE html>
     <html lang="en">
@@ -91,25 +115,19 @@ export default (member: any): string => {
                 color: rgba(255, 255, 255, 0.75);
               }
               .title {
-                font-size: 72px;
+                font-size: ${fontSize}px;
                 line-height: 72px;
                 font-weight: 800;
+                max-width: 450px;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 text-transform: uppercase;
+                white-space: nowrap;
               }
 
 
             </style>
         </head>
-        <body>
-            <div class="overlay"></div>
-            <img src="https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}" alt="user-avatar" class="user-avatar"/>
-            <div class="welcome-container">
-                <img src="https://i.imgur.com/c4rIyMf.png" alt="logo" class="logo">
-                <div class="container">
-                  <h5 class="subtitle">WELCOME TO MIASTUDIOS!</h5>
-                  <h1 class="title">${member.user.username}</h1>
-                </div>
-            </div>
-        </body>
+        ${body}
     </html>`;
 };
