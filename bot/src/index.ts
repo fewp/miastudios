@@ -23,6 +23,9 @@ const YouTubeNotifier = require("youtube-notification");
 
 // express server
 const app = express();
+const bodyParser = require("body-parser").json();
+app.use(bodyParser);
+
 // server to get youtube notifications
 var server = http.createServer(app);
 
@@ -69,9 +72,8 @@ discordClient.login(process.env.DISCORD_TOKEN);
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.post("/contact", (req, res) => {
-  console.log(`res`, res);
-  console.log(`req`, req);
-  // get data from body and send to #contact channel
+  const user = req.body;
+  res.send(user);
 });
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
