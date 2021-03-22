@@ -1,0 +1,5 @@
+query getProduct($id: Float!) {
+  getProduct(id: $id) {
+    ...RegularProductResponse
+  }
+}

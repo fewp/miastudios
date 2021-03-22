@@ -1,0 +1,10 @@
+query getAllProducts {
+  getAllProducts {
+    updatedAt
+    price
+    size
+    name
+    url
+    description
+  }
+}

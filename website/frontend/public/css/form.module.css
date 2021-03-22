@@ -1,0 +1,144 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.form .inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.form .inputContainer:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+.form input {
+  background: var(--darkish);
+  border-style: solid;
+  border-color: var(--black);
+  border-width: 0px 0px 0.15rem 0px;
+  height: 3rem;
+  padding: 0.15rem 1rem 0px 1rem;
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--white);
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box; /* Firefox, other Gecko */
+  box-sizing: border-box; /* Opera/IE 8+ */
+}
+
+.form input:focus {
+  border-color: var(--orange);
+}
+
+/* para o autofill do navegador não ficar branco, arruinando a estética da página */
+.form input:-webkit-autofill,
+.form input:-webkit-autofill:hover,
+.form input:-webkit-autofill:focus,
+.form input:-webkit-autofill:active {
+  transition: color 9999s ease-out, background-color 9999s ease-out;
+  transition-delay: 9999s;
+  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
+}
+
+.errorMessage {
+  color: var(--orange);
+  font-weight: 300;
+}
+
+.labelLink {
+  color: var(--white);
+  font-weight: 300;
+}
+
+.labelLink:hover {
+  cursor: pointer;
+  color: var(--orange);
+}
+
+.label {
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--white);
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: 1rem;
+  height: 3.5rem;
+  border: 3px solid var(--orange);
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.submitButton:hover {
+  border-color: var(--white);
+}
+
+.labelContainer {
+  height: 30px;
+  margin: 5px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resetMessageContainer {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 300;
+  margin-bottom: -50px;
+}
+
+.textArea {
+  background: var(--darkish);
+  border-style: solid;
+  border-color: var(--black);
+  border-width: 0px 0px 2px 0px;
+  height: 8em;
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  width: 100%;
+  color: var(--white);
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box; /* Firefox, other Gecko */
+  box-sizing: border-box; /* Opera/IE 8+ */
+}
+
+.textArea:focus {
+  border-color: var(--orange);
+}
+
+.submitButtonAddPage {
+  width: 20%;
+  align-self: flex-end;
+  text-transform: uppercase;
+  height: 50px;
+  box-shadow: var(--box-shadow);
+  font-size: 1rem;
+  border: solid 3px var(--orange);
+  background: none;
+  font-weight: 600;
+  padding: 0 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

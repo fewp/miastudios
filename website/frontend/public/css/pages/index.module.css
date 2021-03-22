@@ -1,0 +1,172 @@
+/* HERO SECTION */
+/* HERO SECTION */
+/* HERO SECTION */
+
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroSection h2 {
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  text-align: center;
+  color: var(--whiteish);
+}
+
+.heroSection h1 {
+  color: var(--white);
+  font-family: Poppins;
+  font-weight: 800;
+  font-size: 4rem;
+  line-height: 3.5rem;
+}
+
+.heroSection a:first-of-type {
+  background: var(--blacknt);
+  border: 0.1rem solid var(--white);
+  border-radius: 0.35rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.4rem 0;
+  text-align: center;
+  width: 11rem;
+  margin: 1.5rem;
+  color: var(--white);
+}
+
+.heroSection a:first-of-type:hover {
+  border: 0.1rem solid var(--orange);
+}
+
+.heroSection div {
+  width: 11rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* SERVICES SECTION */
+/* SERVICES SECTION */
+/* SERVICES SECTION */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.servicesSection {
+  padding: 5rem 15% 8rem 15%;
+  background: var(--darkest);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.servicesSection h1 {
+  color: var(--white);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 4rem;
+  margin-bottom: 1rem;
+  /* identical to box height */
+}
+
+.servicesSection div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* CONTACT SECTION */
+/* CONTACT SECTION */
+/* CONTACT SECTION */
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.contactSection {
+  padding: 8rem 15% 8rem 15%;
+  background-color: var(--dark-gray);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-repeat: repeat;
+  border: solid var(--graynt);
+  border-width: 0.1rem 0px;
+}
+
+.infoContainer {
+  height: 100%;
+  display: flex;
+  align-items: space-between;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.infoContainer h1 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 2rem;
+  -webkit-text-stroke-width: 1px;
+}
+
+.infoContainer h1:first-of-type {
+  color: var(--white);
+  -webkit-text-stroke-color: var(--white);
+  z-index: 1000;
+}
+
+.infoContainer h1:last-of-type {
+  color: transparent;
+  -webkit-text-stroke-color: var(--orange);
+}
+
+.discordInfoContainer {
+  width: calc(100% - 9rem);
+  height: 100%;
+  margin-top: 2rem;
+  background-color: var(--darkest);
+  box-shadow: var(--box-shadow);
+  padding: 3rem;
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.discordInfoContainer div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.discordInfoContainer div p {
+  font-weight: 600;
+  margin-left: 2rem;
+  margin-bottom: 1.3rem;
+}
+
+.discordInfoContainer p {
+  margin: 1rem 0;
+}
+
+.discordInfoContainer a {
+  font-weight: 700;
+  color: var(--orange);
+}
+.discordInfoContainer a:hover {
+  filter: brightness(2);
+}
+
+.discordInfoContainer ul li {
+  font-weight: 200;
+  margin-left: 1rem;
+}
+
+.contactFormContainer {
+  background: var(--darkest);
+  padding: 2rem 5rem 4rem 5rem;
+  width: 60%;
+  box-shadow: var(--box-shadow);
+}

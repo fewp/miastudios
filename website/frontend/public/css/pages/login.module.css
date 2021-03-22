@@ -1,0 +1,60 @@
+.loginSubtitle {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.05em;
+  color: var(--whiteish);
+}
+
+.loginTitle {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 45px;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.loginMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  padding: 90px 100px;
+  background-color: var(--dark-gray);
+  box-shadow: var(--box-shadow);
+
+}
+
+.loginTitleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.loginBottomContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 25px 0 0px 0;
+}
+
+.loginBottomContainer button {
+  margin: 15px 0;
+}
+
+.loginBottomContainer a {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.05em;
+  color: var(--whiteish);
+}
+.loginBottomContainer a:hover {
+  color: var(--orange);
+}

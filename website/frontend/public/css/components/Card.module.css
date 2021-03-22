@@ -1,0 +1,55 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  width: 32%;
+  background: var(--darkish);
+  padding: 3rem;
+  margin: 2.5rem 0;
+  border: 2.5px solid var(--darkish);
+  box-shadow: var(--box-shadow);
+}
+
+.cardContainer:hover {
+  box-shadow: var(--orange-box-shadow);
+  border: 2.5px solid var(--orange);
+  margin: 0 0 5rem 0;
+  cursor: pointer;
+}
+
+.cardContainer h1 {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin: 1.5rem 0;
+}
+
+.cardContainer p {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-align: justify;
+
+  color: var(--white);
+}
+
+/* icon container */
+.cardContainer div:first-of-type {
+  height: 30%;
+  min-height: 30%;
+  max-height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardContainer div:last-of-type {
+  height: 40%;
+  min-height: 40%;
+  max-height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

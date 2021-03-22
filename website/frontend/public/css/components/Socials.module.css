@@ -1,0 +1,5 @@
+.socialsContainer div:hover * {
+  color: var(--orange);
+  fill: var(--orange);
+  cursor: pointer;
+}

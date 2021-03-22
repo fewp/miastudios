@@ -1,0 +1,10 @@
+{
+  "type": "postgres",
+  "host": "127.0.0.1/",
+  "port": 55694,
+  "username": "postgres",
+  "password": "admin",
+  "database": "ecommerce2",
+  "entities": ["dist/entities/*.js"],
+  "migrations": ["dist/migrations/*.js"]
+}

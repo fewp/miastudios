@@ -1,0 +1,105 @@
+.footerContainer {
+  background: var(--darkest);
+  display: flex;
+  flex-direction: row;
+  color: var(--white);
+  padding: 5rem 15% 2rem 15%;
+}
+
+.footerContainer span {
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1.7rem;
+}
+.footerContainer desc {
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--whiteish);
+}
+
+.columnTitleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 70px;
+}
+
+.columnTitleContainer span {
+  margin-bottom: 1rem;
+}
+
+.columnContainerOne {
+  width: 30%;
+  min-width: 30%;
+  max-width: 30%;
+}
+
+.columnContainerOne:nth-child(2) {
+  display: flex;
+  align-items: center;
+}
+
+.socialsContainer {
+  display: flex;
+}
+.socialsContainer div:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.footerLogoContainer {
+  display: flex;
+  align-items: center;
+}
+.logoTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.footerDescriptionContainer {
+  display: flex;
+  margin: 1.5rem 0;
+}
+.footerDescriptionContainer p {
+  font-weight: 300;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.usefulLinksContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.usefulLinksContainer a {
+  color: var(--whiteish);
+}
+.usefulLinksContainer a:hover {
+  color: var(--orange);
+}
+
+.footerLinks {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.footerLinksRow {
+  display: flex;
+}
+
+.columnContainerTwo {
+  max-width: 40%;
+  min-width: 40%;
+  width: 40%;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

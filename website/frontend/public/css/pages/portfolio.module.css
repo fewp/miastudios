@@ -1,0 +1,20 @@
+.galleryContainer {
+  display: grid;
+  padding: 110px 10%;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
+}
+
+.galleryContainer > img {
+  max-width: 100%;
+}
+
+.galleryContainer > img:nth-child(6n + 4) {
+  grid-column-end: span 2;
+  grid-row-end: span 2;
+}
+
+.galleryContainer > img:hover {
+  cursor: pointer;
+  filter: brightness(1.5);
+}

@@ -1,0 +1,91 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 10%;
+  justify-content: space-between;
+}
+
+.header * {
+  z-index: 1000;
+}
+
+.headerLogo {
+  margin-right: 192px;
+}
+
+.headerLogo:hover {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header a {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  /* identical to box height */
+  letter-spacing: 0.05em;
+  color: var(--white);
+  color: var(--white);
+  border-style: solid;
+  border-width: 0 0 3px 0;
+  border-color: transparent;
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.signUpContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.loggedUserContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.signUpContainer a:last-child {
+  margin-left: 25px;
+}
+
+.signUpContainer a:hover,
+.headerTextContainer a:hover,
+.userProfile a:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+.headerIcons svg:first-of-type {
+  margin-right: 15px;
+}
+
+.headerIcons svg:hover,
+.headerIcons svg:hover * {
+  fill: var(--orange);
+  cursor: pointer;
+}
+
+.headerTextContainer a:not(:last-of-type) {
+  margin-right: 60px;
+}
+
+.logoutButton {
+  background: none;
+  border: none;
+}

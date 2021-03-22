@@ -1,0 +1,79 @@
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  z-index: 100;
+  min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
+}
+
+.sliderOverlay {
+  top: 0;
+  position: absolute;
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  z-index: 150;
+  min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    var(--blackish) 0%,
+    var(--blackish) 80%,
+    var(--darkest) 98%,
+    var(--darkest) 100%
+  );
+}
+
+.sliderImage {
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  height: 98vh;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+}
+.sliderContent {
+  margin-top: -4rem;
+  margin-bottom: 4rem; /* compensation */
+  top: 0;
+  position: absolute;
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  z-index: 200;
+  min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderButton {
+  top: calc(50vh - 7.2rem);
+  position: absolute;
+  background: none;
+  z-index: 1000;
+  border: none;
+  outline: none;
+  font-size: 4rem;
+  color: var(--white);
+}
+.sliderButton:first-of-type {
+  left: 0;
+  margin-left: 15%;
+  align-self: flex-start;
+}
+.sliderButton:last-of-type {
+  right: 0;
+  margin-right: 15%;
+  align-self: flex-end;
+}

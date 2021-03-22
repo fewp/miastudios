@@ -1,0 +1,8 @@
+fragment RegularProduct on Product {
+  name
+  url
+  description
+  updatedAt
+  price
+  size
+}

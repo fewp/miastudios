@@ -1,0 +1,11 @@
+fragment RegularProductResponse on ProductResponse {
+  errors {
+    ...RegularError
+  }
+  product {
+    ...RegularProduct
+  }
+  images {
+    ...RegularImage
+  }
+}
