@@ -9,3 +9,5 @@ old.json
 config.json
 discord-bot/old/
 .env
+
+.vscode/
